@@ -7,13 +7,14 @@ import {
   Col,
 } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import * as ROUTES from "../constants/routes";
 
 export default function Navbar() {
   return (
     <NavbarB fixed="top" bg="light" expand="lg" className="border-bottom">
       <Container>
         <Col>
-          <LinkContainer to="/">
+          <LinkContainer to={ROUTES.HOME}>
             <NavbarB.Brand>DomumGym</NavbarB.Brand>
           </LinkContainer>
         </Col>
@@ -32,7 +33,7 @@ export default function Navbar() {
           </Form>
         </Col>
         <Col xs={4}>
-          <LinkContainer to="/login" className="float-end">
+          <LinkContainer to={ROUTES.SIGN_IN} className="float-end">
             <Button variant="outline-primary">Sign In</Button>
           </LinkContainer>
         </Col>
