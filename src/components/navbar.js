@@ -10,7 +10,7 @@ import { LinkContainer } from "react-router-bootstrap";
 
 export default function Navbar() {
   return (
-    <NavbarB fixed="top" bg="light" expand="lg">
+    <NavbarB fixed="top" bg="light" expand="lg" className="border-bottom">
       <Container>
         <Col>
           <LinkContainer to="/">
@@ -26,10 +26,16 @@ export default function Navbar() {
               aria-label="Search"
             />
 
-            <Button variant="outline-success">Search</Button>
+            <Button variant="outline-primary">
+              <i className="bi bi-search"></i>
+            </Button>
           </Form>
         </Col>
-        <Col xs={4}></Col>
+        <Col xs={4}>
+          <LinkContainer to="/login" className="float-end">
+            <Button variant="outline-primary">Sign In</Button>
+          </LinkContainer>
+        </Col>
       </Container>
     </NavbarB>
   );
