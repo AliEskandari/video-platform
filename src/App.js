@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import Navbar from "./components/navbar";
 import Video from "./pages/video";
+import Channel from "./pages/channel";
 
 const Home = lazy(() => import("./pages/home"));
 
@@ -16,6 +17,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/watch/:id" component={Video} />
+            <Route exact path="/channel/:id" component={Channel} />
           </Switch>
         </Suspense>
       </Router>

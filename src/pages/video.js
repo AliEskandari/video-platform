@@ -1,5 +1,6 @@
 import React from "react";
 import { Row, Col, Image } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import VideoCard from "../components/video-card";
 export default function Video() {
   return (
@@ -20,7 +21,9 @@ export default function Video() {
         <hr />
 
         <p>
-          <h5 className="mb-0">Wally's Workouts</h5>
+          <Link to="/channel/1" className="text-reset text-decoration-none">
+            <h5 className="mb-0">Wally's Workouts</h5>
+          </Link>
           <small>100K subscribers</small>
         </p>
 

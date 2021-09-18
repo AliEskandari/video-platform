@@ -9,8 +9,16 @@ export default function VideoCard() {
         <Card.Img variant="top" src="https://via.placeholder.com//160x100" />
       </Link>
       <Card.Body className="ps-0">
-        <Card.Title>New Workout Video</Card.Title>
-        <Card.Text>Channel X</Card.Text>
+        <Card.Title>
+          <Link to="/watch/1" className="text-reset text-decoration-none">
+            New Workout Video
+          </Link>
+        </Card.Title>
+        <Card.Text>
+          <Link to="/channel/1" className="text-reset text-decoration-none">
+            Channel X
+          </Link>
+        </Card.Text>
         <Card.Text>200k views • 3 days ago</Card.Text>
       </Card.Body>
     </Card>
