@@ -7,6 +7,7 @@ import Navbar from "./components/navbar";
 import Video from "./pages/video";
 import Channel from "./pages/channel";
 import SignIn from "./pages/sign-in";
+import SignUp from "./pages/sign-up";
 import ScrollToTop from "./components/scroll-to-top";
 
 const Home = lazy(() => import("./pages/home"));
@@ -19,6 +20,7 @@ function App() {
         <Suspense fallback={<p>Loading...</p>}>
           <Switch>
             <Route exact path={ROUTES.SIGN_IN} component={SignIn} />
+            <Route exact path={ROUTES.SIGN_UP} component={SignUp} />
             <Route path={ROUTES.HOME}>
               <Navbar />
               <Switch>

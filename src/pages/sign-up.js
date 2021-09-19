@@ -34,15 +34,19 @@ export default function SignIn() {
         <h1>DomumGym</h1>
         <h2 className="mb-5 fw-light">Sign up to start working out</h2>
 
-        <p className="">Sign in</p>
+        <p className="">Create an account</p>
 
         <Form onSubmit={handleSignIn}>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Group className="mb-3">
             <Form.Control type="email" placeholder="Email" />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Group className="mb-3">
             <Form.Control type="password" placeholder="Password" />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Control type="text" placeholder="Name" />
           </Form.Group>
 
           <Button
@@ -51,12 +55,15 @@ export default function SignIn() {
             variant="primary"
             type="submit"
           >
-            SIGN IN
+            SIGN UP
           </Button>
 
+          <hr />
+
           <div className="text-center mb-4">
-            <Link to={ROUTES.SIGN_UP} className="text-decoration-none">
-              Sign up for DomumGym
+            Already have an account? &nbsp;
+            <Link to={ROUTES.SIGN_IN} className="text-decoration-none">
+              Sign In
             </Link>
           </div>
 
