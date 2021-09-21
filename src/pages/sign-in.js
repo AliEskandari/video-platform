@@ -30,7 +30,7 @@ export default function SignIn() {
 
   return (
     <Row className="justify-content-center">
-      <Col xs={12} sm={4} className="border-3">
+      <Col xs={12} md={6} xl={4} className="border-3">
         <h1>DomumGym</h1>
         <h2 className="mb-5 fw-light">Sign up to start working out</h2>
 
