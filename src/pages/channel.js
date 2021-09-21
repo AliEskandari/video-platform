@@ -1,22 +1,27 @@
 import React from "react";
-import { Row, Col, Image } from "react-bootstrap";
+import { Row, Col, Image, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import VideoCard from "../components/video-card";
 export default function Channel() {
   return (
     <>
-      <Row>
+      <Row className="mb-4">
         {/* Profile Photo */}
-        <Col md={6}>
+        <Col lg={4}>
           <Image
-            className="mb-4"
+            className=""
             src="https://via.placeholder.com/1080x720"
             fluid
           ></Image>
         </Col>
         {/* Info */}
-        <Col md={6}>
-          <h2>Wally's Workouts</h2>
+        <Col lg={8}>
+          <div className="d-flex justify-content-between align-items-center mb-4">
+            <span className="fs-1">Wally's Workouts</span>
+            <Button variant="primary" className="" size="">
+              SUBSCRIBE
+            </Button>
+          </div>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque a
             lectus sit amet orci rhoncus pellentesque molestie mattis justo.
