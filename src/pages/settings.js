@@ -7,7 +7,7 @@ export default function Settings() {
       <Col xs={12} md={6} xl={6} className="border-3">
         <Form>
           <div className="mb-3 d-flex justify-content-between align-items-center">
-            <h2 className="mb-0 lh-base">Edit Profile</h2>
+            <h2 className="mb-0 lh-base">Profile</h2>
             <Button variant="primary" type="submit">
               SAVE
             </Button>
@@ -22,7 +22,7 @@ export default function Settings() {
             <Form.Label>Bio</Form.Label>
             <Form.Control
               as="textarea"
-              rows={2}
+              rows={3}
               placeholder="Describe your channel"
             />
           </Form.Group>
@@ -38,15 +38,20 @@ export default function Settings() {
             </Form.Group>
           </Row>
 
-          <Form.Group className="mb-3">
+          <Form.Group className="pb-3">
             <Form.Label>Motivatement</Form.Label>
             <Form.Control type="text" placeholder="Give it 110%!" />
           </Form.Group>
         </Form>
 
         <hr />
-
         <Row>
+          <div className="mb-3 d-flex justify-content-between align-items-center">
+            <h2 className="mb-0 lh-base">Account</h2>
+            <Button variant="primary" type="submit">
+              SAVE
+            </Button>
+          </div>
           <Form.Group as={Col} className="mb-3">
             <Form.Label>Email</Form.Label>
             <Form.Control type="email" placeholder="Enter email" />

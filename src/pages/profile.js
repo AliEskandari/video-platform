@@ -1,7 +1,10 @@
 import { Button } from "react-bootstrap";
+import { LinkContainer } from "react-router-bootstrap";
 import React from "react";
 import { Image, Row, Col } from "react-bootstrap";
 import VideoCard from "../components/video-card";
+import * as ROUTES from "../constants/routes";
+
 export default function Profile() {
   return (
     <>
@@ -18,10 +21,12 @@ export default function Profile() {
         <Col lg={8}>
           <div className="d-flex justify-content-between align-items-center mb-4">
             <span className="fs-1">Sally Sunrise</span>
-            <Button variant="primary" className="" size="">
-              <i class="bi bi-gear"></i>
-              <span class="ms-2">EDIT PROFILE</span>
-            </Button>
+            <LinkContainer to={ROUTES.SETTINGS}>
+              <Button variant="primary" className="" size="">
+                <i class="bi bi-gear"></i>
+                <span class="ms-2">EDIT PROFILE</span>
+              </Button>
+            </LinkContainer>
           </div>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque a
