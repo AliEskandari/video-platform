@@ -6,7 +6,7 @@ export default function Home() {
     <div>
       <Row xs={1} sm={2} md={2} lg={3} xl={5} className="g-4">
         {Array.from({ length: 40 }).map((_, idx) => (
-          <Col>
+          <Col key={idx}>
             <VideoCard />
           </Col>
         ))}
