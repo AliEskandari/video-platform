@@ -4,7 +4,7 @@ import { Row, Form, Button, Col, FloatingLabel } from "react-bootstrap";
 export default function Settings() {
   return (
     <Row className="justify-content-center">
-      <Col xs={12} md={6} xl={6} className="border-3">
+      <Col xs={12} md={8} xl={6} className="border-3">
         <Form>
           <div className="mb-3 d-flex justify-content-between align-items-center">
             <h2 className="mb-0 lh-base">Profile</h2>
