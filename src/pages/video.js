@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Image } from "react-bootstrap";
+import { Row, Col, Image, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import VideoCard from "../components/video-card";
 import * as ROUTES from "../constants/routes";
@@ -15,20 +15,26 @@ export default function Video() {
         ></Image>
 
         <p>
-          <h3>New Workout!</h3>
+          <h4>New Workout!</h4>
           145,918 views • Sep 15, 2021
         </p>
 
         <hr />
 
-        <p>
-          <Link
-            to={ROUTES.CHANNEL.replace(":id", 1)}
-            className="text-reset text-decoration-none"
-          >
-            <h5 className="mb-0">Wally's Workouts</h5>
-          </Link>
-          <small>100K subscribers</small>
+        <p className="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <Link
+              to={ROUTES.CHANNEL.replace(":id", 1)}
+              className="text-reset text-decoration-none"
+            >
+              <h5 className="mb-0">Wally's Workouts</h5>
+            </Link>
+            <small>100K subscribers</small>
+          </div>
+
+          <Button variant="primary" className="" size="sm">
+            SUBSCRIBE
+          </Button>
         </p>
 
         <p>
@@ -46,6 +52,8 @@ export default function Video() {
       </Col>
       {/* Related Videos */}
       <Col>
+        <hr />
+
         <Row xs={1} className="g-4">
           {Array.from({ length: 10 }).map((_, idx) => (
             <Col>

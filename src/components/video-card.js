@@ -8,8 +8,8 @@ export default function VideoCard() {
   return (
     <Card className="border-0">
       <Link to={ROUTES.VIDEO.replace(":id", 1)}>
-        <Skeleton height={160} duration={100} />
-        {/* <Card.Img variant="top" src="https://via.placeholder.com//160x100" /> */}
+        {/* <Skeleton duration={100} className="img card-img-top" /> */}
+        <Card.Img variant="top" src="https://via.placeholder.com//160x100" />
       </Link>
       <Card.Body className="ps-0">
         <Card.Title>

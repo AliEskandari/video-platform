@@ -8,11 +8,11 @@ import * as ROUTES from "../constants/routes";
 export default function Profile() {
   return (
     <>
-      <Row>
+      <Row className="mb-4">
         {/* Profile Photo */}
         <Col lg={4}>
           <Image
-            className="mb-4"
+            className="mb-2"
             src="https://via.placeholder.com/1080x720"
             fluid
           ></Image>
@@ -22,7 +22,7 @@ export default function Profile() {
           <div className="d-flex justify-content-between align-items-center mb-4">
             <span className="fs-1">Sally Sunrise</span>
             <LinkContainer to={ROUTES.SETTINGS}>
-              <Button variant="primary" className="" size="">
+              <Button variant="primary" className="" size="sm">
                 <i class="bi bi-gear"></i>
                 <span class="ms-2">EDIT PROFILE</span>
               </Button>

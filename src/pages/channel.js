@@ -9,7 +9,7 @@ export default function Channel() {
         {/* Profile Photo */}
         <Col lg={4}>
           <Image
-            className=""
+            className="mb-2"
             src="https://via.placeholder.com/1080x720"
             fluid
           ></Image>
@@ -18,7 +18,7 @@ export default function Channel() {
         <Col lg={8}>
           <div className="d-flex justify-content-between align-items-center mb-4">
             <span className="fs-1">Wally's Workouts</span>
-            <Button variant="primary" className="" size="">
+            <Button variant="primary" className="" size="sm">
               SUBSCRIBE
             </Button>
           </div>
