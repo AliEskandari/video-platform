@@ -5,6 +5,7 @@ export const VIDEO = "/v/:id";
 export const SIGN_IN = "/sign-in";
 export const SIGN_UP = "/sign-up";
 export const UPLOAD = "/upload";
+export const SEARCH = "/search";
 
 export const PROFILE = "/my/profile";
 export const SETTINGS = "/my/settings";
