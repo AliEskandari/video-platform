@@ -33,7 +33,9 @@ export default function SignIn() {
       <Row className="justify-content-center">
         <Col xs={12} md={6} xl={4} className="border-3">
           <h1>DomumGym</h1>
-          <h2 className="mb-5 fw-light">Sign up to start working out</h2>
+          <h2 className="mb-5 fw-light">
+            Hit the gym with the click of a mouse
+          </h2>
           <p className="">Sign in</p>
           <Form onSubmit={handleSignIn}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
