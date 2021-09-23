@@ -34,9 +34,11 @@ export default function Navbar() {
               aria-label="Search"
             />
 
-            <Button variant="primary">
-              <i className="bi bi-search"></i>
-            </Button>
+            <LinkContainer to={ROUTES.SEARCH}>
+              <Button variant="primary">
+                <i className="bi bi-search"></i>
+              </Button>
+            </LinkContainer>
           </Form>
         </Col>
         {/* Menu Buttons */}
