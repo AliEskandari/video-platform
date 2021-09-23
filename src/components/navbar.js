@@ -1,3 +1,5 @@
+import "./navbar.css";
+
 import {
   Navbar as NavbarB,
   Form,
@@ -16,11 +18,13 @@ export default function Navbar() {
   return (
     <NavbarB fixed="top" bg="light" expand="lg" className="border-bottom">
       <Container>
+        {/* Logo */}
         <Col>
           <LinkContainer to={ROUTES.HOME}>
             <NavbarB.Brand>DomumGym</NavbarB.Brand>
           </LinkContainer>
         </Col>
+        {/* Search */}
         <Col>
           <Form className="d-flex justify-content">
             <FormControl
@@ -35,6 +39,7 @@ export default function Navbar() {
             </Button>
           </Form>
         </Col>
+        {/* Menu Buttons */}
         <Col xs={4}>
           <div className="float-end">
             <LinkContainer to={ROUTES.UPLOAD}>
@@ -43,7 +48,10 @@ export default function Navbar() {
               </Button>
             </LinkContainer>
 
-            <LinkContainer to={ROUTES.SIGN_IN}>
+            <LinkContainer
+              to={ROUTES.SIGN_IN}
+              className="d-none d-md-inline-block"
+            >
               <Button variant="primary" className="ms-2">
                 SIGN IN
               </Button>
