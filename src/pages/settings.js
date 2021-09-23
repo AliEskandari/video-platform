@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Form, Button, Col, FloatingLabel } from "react-bootstrap";
+import { Row, Form, Button, Col } from "react-bootstrap";
 
 export default function Settings() {
   return (
