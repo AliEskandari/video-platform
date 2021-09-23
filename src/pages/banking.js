@@ -1,5 +1,6 @@
 import React from "react";
+import { Container } from "react-bootstrap";
 
 export default function Banking() {
-  return <div>Banking</div>;
+  return <Container>Banking</Container>;
 }

@@ -24,37 +24,35 @@ const Home = lazy(() => import("./pages/home"));
 
 function App() {
   return (
-    <Container className="App">
-      <Router>
-        <ScrollToTop />
-        <Suspense fallback={<p>Loading...</p>}>
-          <Switch>
-            <Route exact path={ROUTES.SIGN_IN} component={SignIn} />
-            <Route exact path={ROUTES.SIGN_UP} component={SignUp} />
-            <Route path={ROUTES.HOME}>
-              <Navbar />
-              <div className="main-content">
-                <Switch>
-                  <Route exact path={ROUTES.HOME} component={Home} />
-                  <Route exact path={ROUTES.VIDEO} component={Video} />
-                  <Route exact path={ROUTES.CHANNEL} component={Channel} />
-                  <Route exact path={ROUTES.UPLOAD} component={Upload} />
-                  <Route exact path={ROUTES.PROFILE} component={Profile} />
-                  <Route exact path={ROUTES.SETTINGS} component={Settings} />
-                  <Route exact path={ROUTES.PAYMENTS} component={Payments} />
-                  <Route exact path={ROUTES.BANKING} component={Banking} />
-                  <Route exact path={ROUTES.ABOUT} component={About} />
-                  <Route exact path={ROUTES.TERMS} component={Terms} />
-                  <Route exact path={ROUTES.CONTACT} component={Contact} />
-                  <Route exact path={ROUTES.PRIVACY} component={Privacy} />
-                </Switch>
-              </div>
-              <Footer />
-            </Route>
-          </Switch>
-        </Suspense>
-      </Router>
-    </Container>
+    <Router>
+      <ScrollToTop />
+      <Suspense fallback={<p>Loading...</p>}>
+        <Switch>
+          <Route exact path={ROUTES.SIGN_IN} component={SignIn} />
+          <Route exact path={ROUTES.SIGN_UP} component={SignUp} />
+          <Route path={ROUTES.HOME}>
+            <Navbar />
+            <div className="main-content">
+              <Switch>
+                <Route exact path={ROUTES.HOME} component={Home} />
+                <Route exact path={ROUTES.VIDEO} component={Video} />
+                <Route exact path={ROUTES.CHANNEL} component={Channel} />
+                <Route exact path={ROUTES.UPLOAD} component={Upload} />
+                <Route exact path={ROUTES.PROFILE} component={Profile} />
+                <Route exact path={ROUTES.SETTINGS} component={Settings} />
+                <Route exact path={ROUTES.PAYMENTS} component={Payments} />
+                <Route exact path={ROUTES.BANKING} component={Banking} />
+                <Route exact path={ROUTES.ABOUT} component={About} />
+                <Route exact path={ROUTES.TERMS} component={Terms} />
+                <Route exact path={ROUTES.CONTACT} component={Contact} />
+                <Route exact path={ROUTES.PRIVACY} component={Privacy} />
+              </Switch>
+            </div>
+            <Footer />
+          </Route>
+        </Switch>
+      </Suspense>
+    </Router>
   );
 }
 

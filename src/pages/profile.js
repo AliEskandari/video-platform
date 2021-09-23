@@ -1,13 +1,12 @@
-import { Button } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import React from "react";
-import { Image, Row, Col } from "react-bootstrap";
+import { Container, Button, Image, Row, Col } from "react-bootstrap";
 import VideoCard from "../components/video-card";
 import * as ROUTES from "../constants/routes";
 
 export default function Profile() {
   return (
-    <>
+    <Container>
       <Row className="mb-4">
         {/* Profile Photo */}
         <Col lg={4}>
@@ -58,6 +57,6 @@ export default function Profile() {
           </Row>
         </Col>
       </Row>
-    </>
+    </Container>
   );
 }

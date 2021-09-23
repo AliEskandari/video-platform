@@ -1,10 +1,10 @@
 import React from "react";
-import { Row, Col, Image, Button } from "react-bootstrap";
+import { Container, Row, Col, Image, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import VideoCard from "../components/video-card";
 export default function Channel() {
   return (
-    <>
+    <Container>
       <Row className="mb-4">
         {/* Profile Photo */}
         <Col lg={4}>
@@ -52,6 +52,6 @@ export default function Channel() {
           </Row>
         </Col>
       </Row>
-    </>
+    </Container>
   );
 }

@@ -1,9 +1,10 @@
 import React from "react";
+import { Container } from "react-bootstrap";
 
 export default function privacy() {
   return (
-    <div>
+    <Container>
       <h1>Privacy</h1>
-    </div>
+    </Container>
   );
 }
