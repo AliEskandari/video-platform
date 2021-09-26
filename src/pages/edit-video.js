@@ -49,11 +49,10 @@ export default function EditVideo() {
           <hr />
 
           <div className="mb-3 d-flex justify-content-between align-items-center">
-            <h2></h2>
-
             <Button size="sm" variant="danger" onClick={handleShow}>
               DELETE VIDEO
             </Button>
+            <h2></h2>
           </div>
         </Col>
       </Row>
