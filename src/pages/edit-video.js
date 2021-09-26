@@ -15,7 +15,7 @@ export default function EditVideo() {
               <Button
                 variant="primary"
                 className="text-uppercase"
-                size="sm"
+                size=""
                 type="submit"
               >
                 Save
@@ -48,7 +48,7 @@ export default function EditVideo() {
           <hr />
 
           <div className="mb-3 d-flex justify-content-between align-items-center">
-            <Button size="sm" variant="danger" onClick={handleShow}>
+            <Button size="" variant="danger" onClick={handleShow}>
               DELETE VIDEO
             </Button>
             <h2></h2>
