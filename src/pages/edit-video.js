@@ -1,7 +1,11 @@
-import React from "react";
+import { useState } from "react";
 import { Container, Form, Row, Col, Button } from "react-bootstrap";
+import Modal from "../components/modal";
 
-export default function editVideo() {
+export default function EditVideo() {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   return (
     <Container>
       <Row className="justify-content-center">
@@ -45,12 +49,13 @@ export default function editVideo() {
           <hr />
           <div className="mb-3 d-flex justify-content-between align-items-center">
             <h2>Delete Video</h2>
-            <Button size="sm" variant="danger">
+            <Button size="sm" variant="danger" onClick={handleShow}>
               DELETE
             </Button>
           </div>
         </Col>
       </Row>
+      <Modal show={show} handleClose={handleClose} />
     </Container>
   );
 }
