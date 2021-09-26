@@ -12,6 +12,7 @@ export default function editVideo() {
               <Button
                 variant="primary"
                 className="text-uppercase"
+                size="sm"
                 type="submit"
               >
                 Save
@@ -41,6 +42,13 @@ export default function editVideo() {
               </Form.Text>
             </Form.Group>
           </Form>
+          <hr />
+          <div className="mb-3 d-flex justify-content-between align-items-center">
+            <h2>Delete Video</h2>
+            <Button size="sm" variant="danger">
+              DELETE
+            </Button>
+          </div>
         </Col>
       </Row>
     </Container>
