@@ -2,24 +2,38 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import * as ROUTES from "../constants/routes";
+import "./video-card.css";
 import Skeleton from "react-loading-skeleton";
+import { Route } from "react-router-dom/cjs/react-router-dom.min";
 
 export default function VideoCard() {
   return (
     <Card className="border-0">
-      <Link to={ROUTES.VIDEO.replace(":id", 1)}>
+      <Link className="card-img" to={ROUTES.VIDEO.replace(":id", 1)}>
         {/* <Skeleton duration={100} className="img card-img-top" /> */}
         <Card.Img variant="top" src="https://via.placeholder.com//160x100" />
       </Link>
+
+      <div className="card-img-overlay position-absolute w-100 h-100 pe-none"></div>
+
       <Card.Body className="ps-0">
-        <Card.Title>
+        <div className="d-flex justify-content-between">
+          <Card.Title className="text-truncate">
+            <Link
+              to={ROUTES.VIDEO.replace(":id", 1)}
+              className="text-reset text-decoration-none"
+            >
+              New Workout Video
+            </Link>
+          </Card.Title>
           <Link
-            to={ROUTES.VIDEO.replace(":id", 1)}
-            className="text-reset text-decoration-none"
+            to={ROUTES.HOME}
+            className="edit-button float-end d-none text-black-50"
           >
-            New Workout Video
+            <i className="bi bi-pencil-fill"></i>
           </Link>
-        </Card.Title>
+        </div>
+
         <Card.Text>
           <Link
             to={ROUTES.CHANNEL.replace(":id", 1)}

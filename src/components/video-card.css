@@ -1,0 +1,4 @@
+.card:hover > div > div > .edit-button,
+.edit-button:hover {
+  display: inline-block !important;
+}
