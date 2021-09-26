@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useContext } from "react";
 import { Container, Form, Row, Col, Button } from "react-bootstrap";
-import Modal from "../components/modal";
+import ModalContext from "../context/modal";
 
 export default function EditVideo() {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const { handleShow } = useContext(ModalContext);
+
   return (
     <Container>
       <Row className="justify-content-center">
@@ -56,7 +55,6 @@ export default function EditVideo() {
           </div>
         </Col>
       </Row>
-      <Modal show={show} handleClose={handleClose} />
     </Container>
   );
 }

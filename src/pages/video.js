@@ -1,14 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Container, Row, Col, Image, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import VideoCard from "../components/video-card";
-import Modal from "../components/modal";
 import * as ROUTES from "../constants/routes";
+import ModalContext from "../context/modal";
 
 export default function Video() {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const { handleShow } = useContext(ModalContext);
   return (
     <Container>
       <Row>
@@ -68,7 +66,6 @@ export default function Video() {
           </Row>
         </Col>
       </Row>
-      <Modal show={show} handleClose={handleClose} />
     </Container>
   );
 }

@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import VideoCard from "../components/video-card";
-import Modal from "../components/modal";
+import ModalContext from "../context/modal";
 
 export default function Channel() {
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const { handleShow } = useContext(ModalContext);
 
   return (
     <Container>
@@ -49,7 +47,6 @@ export default function Channel() {
 
           <p className="fs-2 fst-italic fw-lighter">"Always give it 110%!"</p>
         </Col>
-        <Modal show={show} handleClose={handleClose} />
       </Row>
 
       <Row>
