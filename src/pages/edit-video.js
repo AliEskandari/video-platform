@@ -47,10 +47,12 @@ export default function EditVideo() {
             </Form.Group>
           </Form>
           <hr />
+
           <div className="mb-3 d-flex justify-content-between align-items-center">
-            <h2>Delete Video</h2>
+            <h2></h2>
+
             <Button size="sm" variant="danger" onClick={handleShow}>
-              DELETE
+              DELETE VIDEO
             </Button>
           </div>
         </Col>

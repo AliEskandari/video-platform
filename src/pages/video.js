@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Row, Col, Image, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import VideoCard from "../components/video-card";
+import Modal from "../components/modal";
 import * as ROUTES from "../constants/routes";
+
 export default function Video() {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   return (
     <Container>
       <Row>
@@ -29,7 +34,12 @@ export default function Video() {
               </Link>
               <small>100K subscribers</small>
             </div>
-            <Button variant="primary" className="" size="sm">
+            <Button
+              variant="primary"
+              className=""
+              size="sm"
+              onClick={handleShow}
+            >
               SUBSCRIBE
             </Button>
           </p>
@@ -58,6 +68,7 @@ export default function Video() {
           </Row>
         </Col>
       </Row>
+      <Modal show={show} handleClose={handleClose} />
     </Container>
   );
 }

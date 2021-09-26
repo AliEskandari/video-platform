@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import VideoCard from "../components/video-card";
+import Modal from "../components/modal";
+
 export default function Channel() {
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
     <Container>
       <Row className="mb-4">
@@ -17,7 +23,12 @@ export default function Channel() {
         <Col lg={8}>
           <div className="d-flex justify-content-between align-items-center mb-4">
             <span className="fs-1">Wally's Workouts</span>
-            <Button variant="primary" className="" size="sm">
+            <Button
+              variant="primary"
+              className=""
+              size="sm"
+              onClick={handleShow}
+            >
               SUBSCRIBE
             </Button>
           </div>
@@ -38,6 +49,7 @@ export default function Channel() {
 
           <p className="fs-2 fst-italic fw-lighter">"Always give it 110%!"</p>
         </Col>
+        <Modal show={show} handleClose={handleClose} />
       </Row>
 
       <Row>

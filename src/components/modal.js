@@ -6,18 +6,18 @@ export default function Modal({ show, handleClose }) {
     <BModal show={show} onHide={handleClose} centered size="sm">
       <Container className="">
         <Row className="p-3">
-          <h2 className="text-center mb-4">Are you sure?</h2>
+          <h3 className="text-center mb-4">Are you sure?</h3>
           <div className="d-flex justify-content-center">
             <Button
               variant="secondary"
               className="me-3"
               onClick={handleClose}
-              size="lg"
+              size=""
             >
-              No
+              NO
             </Button>
-            <Button variant="danger" size="lg">
-              Yes
+            <Button variant="primary" size="" onClick={handleClose}>
+              YES
             </Button>
           </div>
         </Row>
