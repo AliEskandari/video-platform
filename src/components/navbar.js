@@ -1,18 +1,16 @@
-import "./navbar.css";
-
 import {
-  Navbar as NavbarB,
-  Form,
   Button,
-  FormControl,
-  Container,
   Col,
-  NavDropdown,
+  Container,
   Dropdown,
+  Form,
+  FormControl,
   Image,
+  Navbar as NavbarB,
 } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import * as ROUTES from "../constants/routes";
+import "./navbar.css";
 
 export default function Navbar() {
   return (

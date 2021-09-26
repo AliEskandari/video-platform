@@ -1,6 +1,6 @@
-import { useState, useContext, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import * as ROUTES from "../constants/routes";
 
 export default function SignIn() {

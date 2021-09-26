@@ -1,26 +1,24 @@
 import { lazy, Suspense } from "react";
-import { Container } from "react-bootstrap";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import * as ROUTES from "./constants/routes";
-
-import Navbar from "./components/navbar";
 import Footer from "./components/footer";
-import Video from "./pages/video";
+import Navbar from "./components/navbar";
+import ScrollToTop from "./components/scroll-to-top";
+import * as ROUTES from "./constants/routes";
+import About from "./pages/about";
+import Banking from "./pages/banking";
 import Channel from "./pages/channel";
-import Upload from "./pages/upload";
+import Contact from "./pages/contact";
+import EditVideo from "./pages/edit-video";
+import Payments from "./pages/payments";
+import Privacy from "./pages/privacy";
+import Profile from "./pages/profile";
+import Search from "./pages/search";
+import Settings from "./pages/settings";
 import SignIn from "./pages/sign-in";
 import SignUp from "./pages/sign-up";
-import Profile from "./pages/profile";
-import Settings from "./pages/settings";
-import Payments from "./pages/payments";
-import Banking from "./pages/banking";
-import About from "./pages/about";
 import Terms from "./pages/terms";
-import Contact from "./pages/contact";
-import Privacy from "./pages/privacy";
-import Search from "./pages/search";
-import EditVideo from "./pages/edit-video";
-import ScrollToTop from "./components/scroll-to-top";
+import Upload from "./pages/upload";
+import Video from "./pages/video";
 
 const Home = lazy(() => import("./pages/home"));
 

@@ -64,6 +64,7 @@ export default function terms() {
               <a
                 href="https://www.termsfeed.com/terms-conditions-generator/"
                 target="_blank"
+                rel="noreferrer"
               >
                 Terms and Conditions Generator
               </a>
@@ -83,7 +84,7 @@ export default function terms() {
               <strong>Website</strong> refers to DomumGym, accessible from{" "}
               <a
                 href="domumgym.com"
-                rel="external nofollow noopener"
+                rel="external nofollow noopener noreferrer"
                 target="_blank"
               >
                 domumgym.com
@@ -298,7 +299,7 @@ export default function terms() {
             By visiting this page on our website:{" "}
             <a
               href="https://www.domumgym.com/contact"
-              rel="external nofollow noopener"
+              rel="external nofollow noopener noreferrer"
               target="_blank"
             >
               https://www.domumgym.com/contact

@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Col } from "react-bootstrap";
+import { Col, Container } from "react-bootstrap";
 
 export default function privacy() {
   return (
@@ -21,6 +21,7 @@ export default function privacy() {
           <a
             href="https://www.termsfeed.com/privacy-policy-generator/"
             target="_blank"
+            rel="noreferrer"
           >
             Privacy Policy Generator
           </a>
@@ -102,7 +103,7 @@ export default function privacy() {
               <strong>Website</strong> refers to DomumGym, accessible from{" "}
               <a
                 href="domumgym.com"
-                rel="external nofollow noopener"
+                rel="external nofollow noopener noreferrer"
                 target="_blank"
               >
                 domumgym.com
@@ -192,7 +193,7 @@ export default function privacy() {
             disabling, or deleting local shared objects?" available at{" "}
             <a
               href="https://helpx.adobe.com/flash-player/kb/disable-local-shared-objects-flash.html#main_Where_can_I_change_the_settings_for_disabling__or_deleting_local_shared_objects_"
-              rel="external nofollow noopener"
+              rel="external nofollow noopener noreferrer"
               target="_blank"
             >
               https://helpx.adobe.com/flash-player/kb/disable-local-shared-objects-flash.html#main_Where_can_I_change_the_settings_for_disabling__or_deleting_local_shared_objects_
@@ -213,7 +214,11 @@ export default function privacy() {
           remain on Your personal computer or mobile device when You go offline,
           while Session Cookies are deleted as soon as You close Your web
           browser. You can learn more about cookies here:{" "}
-          <a href="https://www.termsfeed.com/blog/cookies/" target="_blank">
+          <a
+            href="https://www.termsfeed.com/blog/cookies/"
+            target="_blank"
+            rel="noreferrer"
+          >
             All About Cookies by TermsFeed
           </a>
           .
@@ -507,7 +512,7 @@ export default function privacy() {
             By visiting this page on our website:{" "}
             <a
               href="https://domumgym.com/contact"
-              rel="external nofollow noopener"
+              rel="external nofollow noopener noreferrer"
               target="_blank"
             >
               https://domumgym.com/contact

@@ -3,8 +3,6 @@ import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import * as ROUTES from "../constants/routes";
 import "./video-card.css";
-import Skeleton from "react-loading-skeleton";
-import { Route } from "react-router-dom/cjs/react-router-dom.min";
 
 export default function VideoCard() {
   return (

@@ -1,6 +1,5 @@
 import React from "react";
-import { Container, Row, Col, Image, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import VideoCard from "../components/video-card";
 export default function Channel() {
   return (

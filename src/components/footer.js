@@ -1,6 +1,6 @@
 import React from "react";
+import { Col, Container } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { Container, Row, Col } from "react-bootstrap";
 import * as ROUTES from "../constants/routes";
 
 export default function footer() {
