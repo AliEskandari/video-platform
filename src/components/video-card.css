@@ -2,3 +2,7 @@
 .edit-button:hover {
   display: inline-block !important;
 }
+
+.card-body {
+  padding-top: 0.5rem !important;
+}

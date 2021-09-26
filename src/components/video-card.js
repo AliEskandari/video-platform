@@ -13,7 +13,7 @@ export default function VideoCard() {
       </Link>
       <Card.Body className="px-0">
         <div className="d-flex justify-content-between">
-          <Card.Title className="text-truncate">
+          <Card.Title className="text-truncate fs-6">
             <Link
               to={ROUTES.VIDEO.replace(":id", 1)}
               className="text-reset text-decoration-none"
