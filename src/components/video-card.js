@@ -13,7 +13,7 @@ export default function VideoCard() {
         {/* <Skeleton duration={100} className="img card-img-top" /> */}
         <Card.Img variant="top" src="https://via.placeholder.com//160x100" />
       </Link>
-      <Card.Body className="ps-0">
+      <Card.Body className="px-0">
         <div className="d-flex justify-content-between">
           <Card.Title className="text-truncate">
             <Link
