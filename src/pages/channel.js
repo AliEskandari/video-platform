@@ -43,7 +43,7 @@ export default function Channel() {
 
       <Row>
         <Col>
-          <Row xs={1} md={3} lg={4} xl={5} className="g-4">
+          <Row xs={1} md={3} lg={4} xl={5} className="g-2">
             {Array.from({ length: 20 }).map((_, idx) => (
               <Col>
                 <VideoCard />

@@ -48,7 +48,7 @@ export default function Profile() {
 
       <Row>
         <Col>
-          <Row xs={1} md={3} lg={4} xl={5} className="g-4">
+          <Row xs={1} md={3} lg={4} xl={5} className="g-2">
             {Array.from({ length: 3 }).map((_, idx) => (
               <Col>
                 <VideoCard />

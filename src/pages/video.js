@@ -49,7 +49,7 @@ export default function Video() {
         {/* Related Videos */}
         <Col>
           <hr />
-          <Row xs={1} className="g-4">
+          <Row xs={1} className="g-2">
             {Array.from({ length: 10 }).map((_, idx) => (
               <Col>
                 <VideoCard />
