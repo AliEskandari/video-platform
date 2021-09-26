@@ -13,9 +13,6 @@ export default function VideoCard() {
         {/* <Skeleton duration={100} className="img card-img-top" /> */}
         <Card.Img variant="top" src="https://via.placeholder.com//160x100" />
       </Link>
-
-      <div className="card-img-overlay position-absolute w-100 h-100 pe-none"></div>
-
       <Card.Body className="ps-0">
         <div className="d-flex justify-content-between">
           <Card.Title className="text-truncate">
@@ -27,7 +24,7 @@ export default function VideoCard() {
             </Link>
           </Card.Title>
           <Link
-            to={ROUTES.HOME}
+            to={ROUTES.EDIT_VIDEO}
             className="edit-button float-end d-none text-black-50"
           >
             <i className="bi bi-pencil-fill"></i>

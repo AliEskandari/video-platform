@@ -19,6 +19,7 @@ import Terms from "./pages/terms";
 import Contact from "./pages/contact";
 import Privacy from "./pages/privacy";
 import Search from "./pages/search";
+import EditVideo from "./pages/edit-video";
 import ScrollToTop from "./components/scroll-to-top";
 
 const Home = lazy(() => import("./pages/home"));
@@ -48,6 +49,7 @@ function App() {
                 <Route exact path={ROUTES.CONTACT} component={Contact} />
                 <Route exact path={ROUTES.PRIVACY} component={Privacy} />
                 <Route exact path={ROUTES.SEARCH} component={Search} />
+                <Route exact path={ROUTES.EDIT_VIDEO} component={EditVideo} />
               </Switch>
             </div>
             <Footer />
