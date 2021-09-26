@@ -22,8 +22,8 @@ export default function Profile() {
             <span className="fs-1">Sally Sunrise</span>
             <LinkContainer to={ROUTES.SETTINGS}>
               <Button variant="primary" className="" size="sm">
-                <i class="bi bi-gear"></i>
-                <span class="ms-2">EDIT PROFILE</span>
+                <i className="bi bi-gear"></i>
+                <span className="ms-2">EDIT PROFILE</span>
               </Button>
             </LinkContainer>
           </div>
