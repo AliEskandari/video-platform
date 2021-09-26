@@ -9,7 +9,7 @@ export default function Settings() {
           <Form>
             <div className="mb-3 d-flex justify-content-between align-items-center">
               <h2 className="mb-0 lh-base">Profile</h2>
-              <Button variant="primary" type="submit" size="sm">
+              <Button variant="primary" type="submit" size="">
                 SAVE
               </Button>
             </div>
@@ -44,7 +44,7 @@ export default function Settings() {
           <Row>
             <div className="mb-3 d-flex justify-content-between align-items-center">
               <h2 className="mb-0 lh-base">Account</h2>
-              <Button variant="primary" type="submit" size="sm">
+              <Button variant="primary" type="submit" size="">
                 SAVE
               </Button>
             </div>
