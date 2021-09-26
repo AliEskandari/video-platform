@@ -29,15 +29,15 @@ export default function VideoCard() {
           </Link>
         </div>
 
-        <Card.Text>
+        <Card.Text className="text-muted">
           <Link
             to={ROUTES.CHANNEL.replace(":id", 1)}
             className="text-reset text-decoration-none"
           >
             Channel X
           </Link>
+          <div>200k views • 3 days ago</div>
         </Card.Text>
-        <Card.Text>200k views • 3 days ago</Card.Text>
       </Card.Body>
     </Card>
   );
