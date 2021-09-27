@@ -17,12 +17,11 @@ export default function Video() {
             src="https://via.placeholder.com/1080x720"
             fluid
           ></Image>
-          <p>
-            <h4>New Workout!</h4>
-            145,918 views • Sep 15, 2021
-          </p>
+          <h4>New Workout!</h4>
+          <p>145,918 views • Sep 15, 2021</p>
+
           <hr />
-          <p className="d-flex justify-content-between align-items-center mb-4">
+          <div className="d-flex justify-content-between align-items-center mb-4">
             <div>
               <Link
                 to={ROUTES.CHANNEL.replace(":id", 1)}
@@ -36,11 +35,11 @@ export default function Video() {
               variant="primary"
               className=""
               size="sm"
-              onClick={handleShow}
+              onClick={() => handleShow("Subscribe for 4.99?")}
             >
               SUBSCRIBE
             </Button>
-          </p>
+          </div>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque a
             lectus sit amet orci rhoncus pellentesque molestie mattis justo.
@@ -59,7 +58,7 @@ export default function Video() {
           <hr />
           <Row xs={1} className="g-2">
             {Array.from({ length: 10 }).map((_, idx) => (
-              <Col>
+              <Col key={idx}>
                 <VideoCard />
               </Col>
             ))}

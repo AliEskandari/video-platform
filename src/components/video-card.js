@@ -36,7 +36,8 @@ export default function VideoCard() {
           >
             Channel X
           </Link>
-          <div>200k views • 3 days ago</div>
+          <br />
+          200k views • 3 days ago
         </Card.Text>
       </Card.Body>
     </Card>

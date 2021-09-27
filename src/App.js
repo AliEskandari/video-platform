@@ -27,13 +27,17 @@ const Home = lazy(() => import("./pages/home"));
 
 function App() {
   const [show, setShow] = useState(false);
+  const [text, setText] = useState(null);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleShow = (string) => {
+    setText(string);
+    setShow(true);
+  };
 
   return (
     <Router>
       <ScrollToTop />
-      <Modal show={show} handleClose={handleClose} />
+      <Modal show={show} handleClose={handleClose} text={text} />
       <ModalContext.Provider value={{ handleShow }}>
         <Suspense fallback={<p>Loading...</p>}>
           <Switch>
