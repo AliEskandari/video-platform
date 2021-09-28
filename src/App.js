@@ -1,6 +1,7 @@
 import { lazy, Suspense, useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import * as ROUTES from "./constants/routes";
+import ProtectedRoute from "./helpers/protected-route";
 
 // Components
 import Footer from "./components/footer";
@@ -62,21 +63,29 @@ function App() {
                     <Route exact path={ROUTES.HOME} component={Home} />
                     <Route exact path={ROUTES.VIDEO} component={Video} />
                     <Route exact path={ROUTES.CHANNEL} component={Channel} />
-                    <Route exact path={ROUTES.UPLOAD} component={Upload} />
-                    <Route exact path={ROUTES.PROFILE} component={Profile} />
-                    <Route exact path={ROUTES.SETTINGS} component={Settings} />
-                    <Route exact path={ROUTES.PAYMENTS} component={Payments} />
-                    <Route exact path={ROUTES.BANKING} component={Banking} />
                     <Route exact path={ROUTES.ABOUT} component={About} />
                     <Route exact path={ROUTES.TERMS} component={Terms} />
                     <Route exact path={ROUTES.CONTACT} component={Contact} />
                     <Route exact path={ROUTES.PRIVACY} component={Privacy} />
                     <Route exact path={ROUTES.SEARCH} component={Search} />
-                    <Route
-                      exact
-                      path={ROUTES.EDIT_VIDEO}
-                      component={EditVideo}
-                    />
+                    <ProtectedRoute user={user} exact path={ROUTES.UPLOAD}>
+                      <Upload />
+                    </ProtectedRoute>
+                    <ProtectedRoute user={user} exact path={ROUTES.PROFILE}>
+                      <Profile />
+                    </ProtectedRoute>
+                    <ProtectedRoute user={user} exact path={ROUTES.SETTINGS}>
+                      <Settings />
+                    </ProtectedRoute>
+                    <ProtectedRoute user={user} exact path={ROUTES.PAYMENTS}>
+                      <Payments />
+                    </ProtectedRoute>
+                    <ProtectedRoute user={user} exact path={ROUTES.BANKING}>
+                      <Banking />
+                    </ProtectedRoute>
+                    <ProtectedRoute user={user} exact path={ROUTES.EDIT_VIDEO}>
+                      <EditVideo />
+                    </ProtectedRoute>
                   </Switch>
                 </div>
                 <Footer />
