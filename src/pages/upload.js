@@ -1,14 +1,18 @@
-import React, { useRef } from "react";
+import React, { useContext, useRef } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { uploadFile } from "../services/firebase";
+import UserContext from "../context/user";
 
 export default function Upload() {
   const fileInput = useRef("");
+  const { user: loggedInUser } = useContext(UserContext);
+
   const handlePublish = (event) => {
     event.preventDefault();
     const file = fileInput.current.files[0];
-    uploadFile(file);
+    uploadFile(loggedInUser.uid, file);
   };
+
   return (
     <Container>
       <Row className="justify-content-center">
@@ -22,7 +26,11 @@ export default function Upload() {
             </div>
             <Form.Group controlId="formFile" className="mb-3">
               <Form.Label>File</Form.Label>
-              <Form.Control type="file" ref={fileInput} />
+              <Form.Control
+                type="file"
+                ref={fileInput}
+                accept="video/mp4, video/mpeg, video/quicktime"
+              />
               <Form.Text id="" muted></Form.Text>
             </Form.Group>
             <Form.Group className="mb-3">

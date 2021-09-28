@@ -19,15 +19,6 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const storage = getStorage(app);
 
-export async function doesUsernameExist(username) {
-  // const result = await firebase
-  //   .firestore()
-  //   .collection("users")
-  //   .where("username", "==", username.toLowerCase())
-  //   .get();
-  // return result.docs.length > 0;
-}
-
 export async function doesEmailExist(email) {
   const q = query(collection(db, "users"), where("email", "==", email));
   const querySnapshot = await getDocs(q);
@@ -53,15 +44,14 @@ export async function signInWithGoogle() {
   }
 }
 
-export async function uploadFile(file) {
+export async function uploadFile(id, file) {
   // Create the file metadata
-  /** @type {any} */
   const metadata = {
-    contentType: "image/jpeg",
+    contentType: file.type,
   };
 
-  // Upload file and metadata to the object 'images/mountains.jpg'
-  const storageRef = ref(storage, "images/" + file.name);
+  // Upload file and metadata to the object
+  const storageRef = ref(storage, `videos/${id}/${file.name}`);
   const uploadTask = uploadBytesResumable(storageRef, file, metadata);
 
   // Listen for state changes, errors, and completion of the upload.
