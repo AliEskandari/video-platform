@@ -9,17 +9,16 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   updateProfile,
-  signInWithPopup,
-  GoogleAuthProvider,
 } from "firebase/auth";
 import { getFirestore, collection, addDoc } from "firebase/firestore";
+import { signInWithGoogle } from "../services/firebase";
+
 export default function SignIn() {
   const history = useHistory();
 
   const { app } = useContext(FirebaseContext);
   const auth = getAuth(app);
   const db = getFirestore(app);
-  const provider = new GoogleAuthProvider();
 
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
@@ -67,19 +66,7 @@ export default function SignIn() {
     event.preventDefault();
 
     try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-
-      // firebase user collection (create a document)
-      await addDoc(collection(db, "users"), {
-        userId: user.uid,
-        fullName: user.displayName,
-        emailAddress: user.email.toLowerCase(),
-        following: [],
-        followers: [],
-        dateCreated: Date.now(),
-      });
-
+      await signInWithGoogle();
       history.push(ROUTES.HOME);
     } catch (error) {
       setFullName("");

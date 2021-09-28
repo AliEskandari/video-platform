@@ -5,16 +5,11 @@ import * as ROUTES from "../constants/routes";
 
 // Firebase
 import FirebaseContext from "../context/firebase";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithGoogle } from "../services/firebase";
 
 export default function SignIn() {
   const history = useHistory();
-  const provider = new GoogleAuthProvider();
   const { app } = useContext(FirebaseContext);
   const auth = getAuth(app);
 
@@ -40,22 +35,9 @@ export default function SignIn() {
     event.preventDefault();
 
     try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-
-      // firebase user collection (create a document)
-      await addDoc(collection(db, "users"), {
-        userId: user.uid,
-        fullName: user.displayName,
-        emailAddress: user.email.toLowerCase(),
-        following: [],
-        followers: [],
-        dateCreated: Date.now(),
-      });
-
+      await signInWithGoogle();
       history.push(ROUTES.HOME);
     } catch (error) {
-      setFullName("");
       setEmailAddress("");
       setPassword("");
       setError(error.message);
