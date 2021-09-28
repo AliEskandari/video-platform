@@ -1,3 +1,5 @@
+import { getAuth } from "@firebase/auth";
+import { useContext } from "react";
 import {
   Button,
   Col,
@@ -9,10 +11,20 @@ import {
   Navbar as NavbarB,
 } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import * as ROUTES from "../constants/routes";
+import FirebaseContext from "../context/firebase";
 import "./navbar.css";
 
 export default function Navbar() {
+  const history = useHistory();
+  const { app } = useContext(FirebaseContext);
+  const auth = getAuth(app);
+
+  const handleSignOut = async () => {
+    await auth.signOut();
+    history.push(ROUTES.HOME);
+  };
   return (
     <NavbarB fixed="top" bg="light" expand="lg" className="border-bottom">
       <Container>
@@ -111,12 +123,10 @@ export default function Navbar() {
 
                 <Dropdown.Divider />
 
-                <LinkContainer to={ROUTES.SIGN_IN}>
-                  <Dropdown.Item>
-                    <i className="bi bi-box-arrow-left"></i>
-                    <span className="ms-3">Logout</span>
-                  </Dropdown.Item>
-                </LinkContainer>
+                <Dropdown.Item onClick={handleSignOut}>
+                  <i className="bi bi-box-arrow-left"></i>
+                  <span className="ms-3">Logout</span>
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
           </div>
