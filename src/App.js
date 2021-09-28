@@ -26,7 +26,7 @@ import Upload from "./pages/upload";
 import Video from "./pages/video";
 
 // Firebase
-import { firebase } from "./lib/firebase";
+import { app } from "./lib/firebase";
 import FirebaseContext from "./context/firebase";
 
 // Modal
@@ -44,7 +44,7 @@ function App() {
   };
 
   return (
-    <FirebaseContext.Provider value={{ firebase }}>
+    <FirebaseContext.Provider value={{ app }}>
       <Router>
         <ScrollToTop />
         <Modal show={show} handleClose={handleClose} text={text} />
