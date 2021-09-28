@@ -3,4 +3,13 @@ import App from "./App";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 
-ReactDOM.render(<App />, document.getElementById("root"));
+// Firebase
+import FirebaseContext from "./context/firebase";
+import { app } from "./lib/firebase";
+
+ReactDOM.render(
+  <FirebaseContext.Provider value={{ app }}>
+    <App />
+  </FirebaseContext.Provider>,
+  document.getElementById("root")
+);

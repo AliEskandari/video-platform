@@ -25,9 +25,9 @@ import Terms from "./pages/terms";
 import Upload from "./pages/upload";
 import Video from "./pages/video";
 
-// Firebase
-import { app } from "./lib/firebase";
-import FirebaseContext from "./context/firebase";
+// Firebase + User
+import UserContext from "./context/user";
+import useAuthListener from "./hooks/use-auth-listener";
 
 // Modal
 import ModalContext from "./context/modal";
@@ -35,6 +35,8 @@ import ModalContext from "./context/modal";
 const Home = lazy(() => import("./pages/home"));
 
 function App() {
+  const { user } = useAuthListener();
+
   const [show, setShow] = useState(false);
   const [text, setText] = useState(null);
   const handleClose = () => setShow(false);
@@ -44,7 +46,7 @@ function App() {
   };
 
   return (
-    <FirebaseContext.Provider value={{ app }}>
+    <UserContext.Provider value={{ user }}>
       <Router>
         <ScrollToTop />
         <Modal show={show} handleClose={handleClose} text={text} />
@@ -83,7 +85,7 @@ function App() {
           </Suspense>
         </ModalContext.Provider>
       </Router>
-    </FirebaseContext.Provider>
+    </UserContext.Provider>
   );
 }
 
