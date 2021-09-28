@@ -1,10 +1,14 @@
 import { LinkContainer } from "react-router-bootstrap";
-import React from "react";
+import React, { useContext } from "react";
 import { Container, Button, Image, Row, Col } from "react-bootstrap";
 import VideoCard from "../components/video-card";
 import * as ROUTES from "../constants/routes";
 
+// Firebase + User
+import UserContext from "../context/user";
+
 export default function Profile() {
+  const { user: loggedInUser } = useContext(UserContext);
   return (
     <Container>
       <Row className="mb-4">
@@ -19,7 +23,7 @@ export default function Profile() {
         {/* Info */}
         <Col lg={8}>
           <div className="d-flex justify-content-between align-items-center mb-4">
-            <span className="fs-1">Sally Sunrise</span>
+            <span className="fs-1">{loggedInUser.displayName}</span>
             <LinkContainer to={ROUTES.SETTINGS}>
               <Button variant="primary" className="" size="sm">
                 <i className="bi bi-gear"></i>
