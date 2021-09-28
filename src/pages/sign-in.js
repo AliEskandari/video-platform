@@ -40,9 +40,22 @@ export default function SignIn() {
     event.preventDefault();
 
     try {
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+
+      // firebase user collection (create a document)
+      await addDoc(collection(db, "users"), {
+        userId: user.uid,
+        fullName: user.displayName,
+        emailAddress: user.email.toLowerCase(),
+        following: [],
+        followers: [],
+        dateCreated: Date.now(),
+      });
+
       history.push(ROUTES.HOME);
     } catch (error) {
+      setFullName("");
       setEmailAddress("");
       setPassword("");
       setError(error.message);
