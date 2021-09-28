@@ -11,7 +11,7 @@ export default function Video() {
     <Container>
       <Row>
         {/* Video */}
-        <Col sm={12} lg={9}>
+        <Col sm={12} md={8} lg={8}>
           <Image
             className="mb-4"
             src="https://via.placeholder.com/1080x720"
@@ -37,7 +37,7 @@ export default function Video() {
               size="sm"
               onClick={() => handleShow("Subscribe for 4.99?")}
             >
-              SUBSCRIBE
+              Subscribe
             </Button>
           </div>
           <p>

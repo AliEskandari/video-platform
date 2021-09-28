@@ -27,7 +27,7 @@ export default function Channel() {
               size="sm"
               onClick={() => handleShow("Subscribe for $4.99?")}
             >
-              SUBSCRIBE
+              Subscribe
             </Button>
           </div>
           <p>

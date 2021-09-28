@@ -36,7 +36,9 @@ export default function Navbar() {
         {/* Logo */}
         <Col>
           <LinkContainer to={ROUTES.HOME}>
-            <NavbarB.Brand>DomumGym</NavbarB.Brand>
+            <NavbarB.Brand className="text-primary fw-bold text-uppercase">
+              DomumGym
+            </NavbarB.Brand>
           </LinkContainer>
         </Col>
         {/* Search */}
