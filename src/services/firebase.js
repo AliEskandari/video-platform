@@ -2,14 +2,16 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import {
   addDoc,
   collection,
+  doc,
+  getDoc,
   getDocs,
   getFirestore,
   query,
   where,
 } from "firebase/firestore";
 import {
-  getStorage,
   getDownloadURL,
+  getStorage,
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
@@ -136,4 +138,16 @@ export async function getUserVideosByUserId(userId) {
     docId: video.id,
   }));
   return videos;
+}
+
+export async function getVideoById(videoId) {
+  const docRef = doc(db, "videos", videoId);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return docSnap.data();
+  } else {
+    // doc.data() will be undefined in this case
+    return null;
+  }
 }
