@@ -25,9 +25,18 @@ export default function Upload() {
 
     const file = fileInput.current.files[0];
     const video = { title, description, exclusive };
-    uploadVideo(user, file, video, setAlert);
+    uploadVideo(user, file, video, onProgress, onDone);
 
     history.push(ROUTES.PROFILE);
+  };
+
+  const onProgress = (progress) => {
+    const message = "Uploading video..." + progress + "% done";
+    setAlert(message);
+  };
+
+  const onDone = () => {
+    setAlert("Uploading video...done", true);
   };
 
   return (

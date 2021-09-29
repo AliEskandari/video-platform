@@ -57,7 +57,7 @@ export async function signInWithGoogle() {
   }
 }
 
-export async function uploadVideo(userDoc, file, video, setAlert, closeAlert) {
+export async function uploadVideo(userDoc, file, video, onProgress, onDone) {
   // Create the file metadata
   const metadata = {
     contentType: file.type,
@@ -72,10 +72,14 @@ export async function uploadVideo(userDoc, file, video, setAlert, closeAlert) {
     "state_changed",
     (snapshot) => {
       // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      const message = "Uploading video..." + progress.toFixed(0) + "% done";
+      const progress = (
+        (snapshot.bytesTransferred / snapshot.totalBytes) *
+        100
+      ).toFixed(0);
+      const message = "Uploading video..." + progress + "% done";
       console.log(message);
-      setAlert(message);
+      onProgress(progress);
+
       switch (snapshot.state) {
         case "paused":
           console.log("Upload is paused");
@@ -117,7 +121,7 @@ export async function uploadVideo(userDoc, file, video, setAlert, closeAlert) {
           userId: userDoc.userId,
           views: 0,
         });
-        setAlert("Uploading video...done", true);
+        onDone();
       });
     }
   );
