@@ -19,6 +19,19 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const storage = getStorage(app);
 
+// get user from the firestore where userId === userId (passed from the auth)
+export async function getUserByUserId(userId) {
+  const q = query(collection(db, "users"), where("userId", "==", userId));
+  const querySnapshot = await getDocs(q);
+
+  const user = querySnapshot.docs.map((doc) => ({
+    ...doc.data(),
+    docId: doc.id,
+  }));
+
+  return user;
+}
+
 export async function doesEmailExist(email) {
   const q = query(collection(db, "users"), where("email", "==", email));
   const querySnapshot = await getDocs(q);
@@ -44,14 +57,14 @@ export async function signInWithGoogle() {
   }
 }
 
-export async function uploadFile(id, file, setAlert, closeAlert) {
+export async function uploadVideo(userDoc, file, video, setAlert, closeAlert) {
   // Create the file metadata
   const metadata = {
     contentType: file.type,
   };
 
   // Upload file and metadata to the object
-  const storageRef = ref(storage, `videos/${id}/${file.name}`);
+  const storageRef = ref(storage, `videos/${userDoc.uid}/${file.name}`);
   const uploadTask = uploadBytesResumable(storageRef, file, metadata);
 
   // Listen for state changes, errors, and completion of the upload.
@@ -91,11 +104,21 @@ export async function uploadFile(id, file, setAlert, closeAlert) {
       }
     },
     () => {
-      // Upload completed successfully, now we can get the download URL
-      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-        console.log("File available at", downloadURL);
-      });
       setAlert("Uploading video...done", true);
+
+      // Upload completed successfully, now we can get the download URL
+      getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+        console.log("File available at", downloadURL);
+        // Add doc to video collection
+        await addDoc(collection(db, "videos"), {
+          title: video.title,
+          description: video.description,
+          exclusive: video.exclusive,
+          dateCreated: Date.now(),
+          url: downloadURL,
+          user: userDoc.docId,
+        });
+      });
     }
   );
 }

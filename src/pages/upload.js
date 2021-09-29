@@ -1,8 +1,9 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useState, useRef } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { uploadFile } from "../services/firebase";
+import { uploadVideo } from "../services/firebase";
 import { useHistory } from "react-router-dom";
 import UserContext from "../context/user";
+import useUser from "../hooks/use-user";
 import * as ROUTES from "../constants/routes";
 
 // Alert
@@ -11,14 +12,20 @@ import AlertContext from "../context/alert";
 export default function Upload() {
   const history = useHistory();
   const { user: loggedInUser } = useContext(UserContext);
+  const { user } = useUser(loggedInUser.uid);
   const { setAlert } = useContext(AlertContext);
   const fileInput = useRef("");
+
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [exclusive, setExclusive] = useState(false);
 
   const handlePublish = (event) => {
     event.preventDefault();
 
     const file = fileInput.current.files[0];
-    uploadFile(loggedInUser.uid, file, setAlert);
+    const video = { title, description, exclusive };
+    uploadVideo(user, file, video, setAlert);
 
     history.push(ROUTES.PROFILE);
   };
@@ -45,7 +52,12 @@ export default function Upload() {
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Title</Form.Label>
-              <Form.Control type="text" placeholder="Enter video title" />
+              <Form.Control
+                type="text"
+                placeholder="Enter video title"
+                value={title}
+                onChange={({ target }) => setTitle(target.value)}
+              />
             </Form.Group>
             <Form.Group className="mb-3">
               <Form.Label>Description</Form.Label>
@@ -53,10 +65,18 @@ export default function Upload() {
                 as="textarea"
                 rows={3}
                 placeholder="Enter video description"
+                value={description}
+                onChange={({ target }) => setDescription(target.value)}
               />
             </Form.Group>
             <Form.Group className="pb-3">
-              <Form.Check type="switch" id="" label="Exclusive" />
+              <Form.Check
+                type="switch"
+                id=""
+                label="Exclusive"
+                value={exclusive}
+                onChange={({ target }) => setExclusive(target.value)}
+              />
               <Form.Text id="" muted>
                 Activate to make video visible only to your subscribers.
               </Form.Text>
