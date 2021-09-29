@@ -1,16 +1,26 @@
 import React, { useContext, useRef } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { uploadFile } from "../services/firebase";
+import { useHistory } from "react-router-dom";
 import UserContext from "../context/user";
+import * as ROUTES from "../constants/routes";
+
+// Alert
+import AlertContext from "../context/alert";
 
 export default function Upload() {
-  const fileInput = useRef("");
+  const history = useHistory();
   const { user: loggedInUser } = useContext(UserContext);
+  const { setAlert } = useContext(AlertContext);
+  const fileInput = useRef("");
 
   const handlePublish = (event) => {
     event.preventDefault();
+
     const file = fileInput.current.files[0];
-    uploadFile(loggedInUser.uid, file);
+    uploadFile(loggedInUser.uid, file, setAlert);
+
+    history.push(ROUTES.PROFILE);
   };
 
   return (

@@ -5,3 +5,7 @@ html,
 #main-content {
   /* height: 100%; */
 }
+
+.main-content {
+  padding-top: 1rem;
+}

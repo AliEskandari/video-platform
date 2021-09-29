@@ -2,12 +2,12 @@ import { lazy, Suspense, useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import * as ROUTES from "./constants/routes";
 import ProtectedRoute from "./helpers/protected-route";
-
 // Components
 import Footer from "./components/footer";
 import Navbar from "./components/navbar";
 import ScrollToTop from "./components/scroll-to-top";
 import Modal from "./components/modal";
+import Alert from "./components/alert";
 
 // Pages
 import About from "./pages/about";
@@ -30,8 +30,9 @@ import Video from "./pages/video";
 import UserContext from "./context/user";
 import useAuthListener from "./hooks/use-auth-listener";
 
-// Modal
+// Modal + Alert
 import ModalContext from "./context/modal";
+import AlertContext from "./context/alert";
 
 const Home = lazy(() => import("./pages/home"));
 
@@ -46,52 +47,76 @@ function App() {
     setShow(true);
   };
 
+  const [alertShow, setAlertShow] = useState(false);
+  const [alertText, setAlertText] = useState("");
+  const [alertDismissible, setAlertDismissible] = useState(false);
+  const setAlert = (text, dismissible = false) => {
+    setAlertText(text);
+    setAlertDismissible(dismissible);
+    setAlertShow(true);
+  };
+  const closeAlert = () => {
+    setAlertShow(false);
+  };
+
   return (
     <UserContext.Provider value={{ user }}>
       <Router>
         <ScrollToTop />
         <Modal show={show} handleClose={handleClose} text={text} />
+        <Alert
+          show={alertShow}
+          text={alertText}
+          dismissible={alertDismissible}
+          onClose={closeAlert}
+        />
         <ModalContext.Provider value={{ handleShow }}>
-          <Suspense fallback={<p>Loading...</p>}>
-            <Switch>
-              <Route exact path={ROUTES.SIGN_IN} component={SignIn} />
-              <Route exact path={ROUTES.SIGN_UP} component={SignUp} />
-              <Route path={ROUTES.HOME}>
-                <Navbar />
-                <div className="main-content">
-                  <Switch>
-                    <Route exact path={ROUTES.HOME} component={Home} />
-                    <Route exact path={ROUTES.VIDEO} component={Video} />
-                    <Route exact path={ROUTES.CHANNEL} component={Channel} />
-                    <Route exact path={ROUTES.ABOUT} component={About} />
-                    <Route exact path={ROUTES.TERMS} component={Terms} />
-                    <Route exact path={ROUTES.CONTACT} component={Contact} />
-                    <Route exact path={ROUTES.PRIVACY} component={Privacy} />
-                    <Route exact path={ROUTES.SEARCH} component={Search} />
-                    <ProtectedRoute user={user} exact path={ROUTES.UPLOAD}>
-                      <Upload />
-                    </ProtectedRoute>
-                    <ProtectedRoute user={user} exact path={ROUTES.PROFILE}>
-                      <Profile />
-                    </ProtectedRoute>
-                    <ProtectedRoute user={user} exact path={ROUTES.SETTINGS}>
-                      <Settings />
-                    </ProtectedRoute>
-                    <ProtectedRoute user={user} exact path={ROUTES.PAYMENTS}>
-                      <Payments />
-                    </ProtectedRoute>
-                    <ProtectedRoute user={user} exact path={ROUTES.BANKING}>
-                      <Banking />
-                    </ProtectedRoute>
-                    <ProtectedRoute user={user} exact path={ROUTES.EDIT_VIDEO}>
-                      <EditVideo />
-                    </ProtectedRoute>
-                  </Switch>
-                </div>
-                <Footer />
-              </Route>
-            </Switch>
-          </Suspense>
+          <AlertContext.Provider value={{ setAlert }}>
+            <Suspense fallback={<p>Loading...</p>}>
+              <Switch>
+                <Route exact path={ROUTES.SIGN_IN} component={SignIn} />
+                <Route exact path={ROUTES.SIGN_UP} component={SignUp} />
+                <Route path={ROUTES.HOME}>
+                  <Navbar />
+                  <div className="main-content">
+                    <Switch>
+                      <Route exact path={ROUTES.HOME} component={Home} />
+                      <Route exact path={ROUTES.VIDEO} component={Video} />
+                      <Route exact path={ROUTES.CHANNEL} component={Channel} />
+                      <Route exact path={ROUTES.ABOUT} component={About} />
+                      <Route exact path={ROUTES.TERMS} component={Terms} />
+                      <Route exact path={ROUTES.CONTACT} component={Contact} />
+                      <Route exact path={ROUTES.PRIVACY} component={Privacy} />
+                      <Route exact path={ROUTES.SEARCH} component={Search} />
+                      <ProtectedRoute user={user} exact path={ROUTES.UPLOAD}>
+                        <Upload />
+                      </ProtectedRoute>
+                      <ProtectedRoute user={user} exact path={ROUTES.PROFILE}>
+                        <Profile />
+                      </ProtectedRoute>
+                      <ProtectedRoute user={user} exact path={ROUTES.SETTINGS}>
+                        <Settings />
+                      </ProtectedRoute>
+                      <ProtectedRoute user={user} exact path={ROUTES.PAYMENTS}>
+                        <Payments />
+                      </ProtectedRoute>
+                      <ProtectedRoute user={user} exact path={ROUTES.BANKING}>
+                        <Banking />
+                      </ProtectedRoute>
+                      <ProtectedRoute
+                        user={user}
+                        exact
+                        path={ROUTES.EDIT_VIDEO}
+                      >
+                        <EditVideo />
+                      </ProtectedRoute>
+                    </Switch>
+                  </div>
+                  <Footer />
+                </Route>
+              </Switch>
+            </Suspense>
+          </AlertContext.Provider>
         </ModalContext.Provider>
       </Router>
     </UserContext.Provider>

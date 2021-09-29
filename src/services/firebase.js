@@ -44,7 +44,7 @@ export async function signInWithGoogle() {
   }
 }
 
-export async function uploadFile(id, file) {
+export async function uploadFile(id, file, setAlert, closeAlert) {
   // Create the file metadata
   const metadata = {
     contentType: file.type,
@@ -60,7 +60,9 @@ export async function uploadFile(id, file) {
     (snapshot) => {
       // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      console.log("Upload is " + progress + "% done");
+      const message = "Uploading video..." + progress.toFixed(0) + "% done";
+      console.log(message);
+      setAlert(message);
       switch (snapshot.state) {
         case "paused":
           console.log("Upload is paused");
@@ -93,6 +95,7 @@ export async function uploadFile(id, file) {
       getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
         console.log("File available at", downloadURL);
       });
+      setAlert("Uploading video...done", true);
     }
   );
 }
