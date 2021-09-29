@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import * as ROUTES from "../constants/routes";
 import "./video-card.css";
 
-export default function VideoCard() {
+export default function VideoCard({ video }) {
   return (
     <Card className="border-0">
       <Link className="card-img" to={ROUTES.VIDEO.replace(":id", 1)}>
@@ -18,7 +18,7 @@ export default function VideoCard() {
               to={ROUTES.VIDEO.replace(":id", 1)}
               className="text-reset text-decoration-none"
             >
-              New Workout Video
+              {video?.title || "hello"}
             </Link>
           </Card.Title>
           <Link
@@ -37,7 +37,7 @@ export default function VideoCard() {
             Channel X
           </Link>
           <br />
-          200k views • 3 days ago
+          {video?.views || "200K"} views • 3 days ago
         </Card.Text>
       </Card.Body>
     </Card>

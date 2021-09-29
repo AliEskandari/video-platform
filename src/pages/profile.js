@@ -1,14 +1,17 @@
 import { LinkContainer } from "react-router-bootstrap";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Container, Button, Image, Row, Col } from "react-bootstrap";
 import VideoCard from "../components/video-card";
 import * as ROUTES from "../constants/routes";
+import useVideos from "../hooks/use-videos";
 
 // Firebase + User
 import UserContext from "../context/user";
 
 export default function Profile() {
   const { user: loggedInUser } = useContext(UserContext);
+  const { videos } = useVideos(loggedInUser);
+
   return (
     <Container>
       <Row className="mb-4">
@@ -53,9 +56,9 @@ export default function Profile() {
       <Row>
         <Col>
           <Row xs={1} md={3} lg={4} xl={5} className="g-2">
-            {Array.from({ length: 3 }).map((_, idx) => (
+            {videos.map((video, idx) => (
               <Col key={idx}>
-                <VideoCard />
+                <VideoCard video={video} />
               </Col>
             ))}
           </Row>

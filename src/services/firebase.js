@@ -29,7 +29,7 @@ export async function getUserByUserId(userId) {
     docId: doc.id,
   }));
 
-  return user;
+  return user; // => [{}] if found or [] if no user found
 }
 
 export async function doesEmailExist(email) {
@@ -104,8 +104,6 @@ export async function uploadVideo(userDoc, file, video, setAlert, closeAlert) {
       }
     },
     () => {
-      setAlert("Uploading video...done", true);
-
       // Upload completed successfully, now we can get the download URL
       getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
         console.log("File available at", downloadURL);
@@ -116,9 +114,22 @@ export async function uploadVideo(userDoc, file, video, setAlert, closeAlert) {
           exclusive: video.exclusive,
           dateCreated: Date.now(),
           url: downloadURL,
-          user: userDoc.docId,
+          userId: userDoc.userId,
+          views: 0,
         });
+        setAlert("Uploading video...done", true);
       });
     }
   );
+}
+
+export async function getUserVideosByUserId(userId) {
+  const q = query(collection(db, "videos"), where("userId", "==", userId));
+  const querySnapshot = await getDocs(q);
+
+  const videos = querySnapshot.docs.map((video) => ({
+    ...video.data(),
+    docId: video.id,
+  }));
+  return videos;
 }
