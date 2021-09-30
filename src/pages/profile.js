@@ -60,7 +60,7 @@ export default function Profile() {
           <Row xs={1} md={3} lg={4} xl={5} className="g-2">
             {videos.map((video, idx) => (
               <Col key={idx}>
-                <VideoCard video={video} />
+                <VideoCard video={video} showUserName={false} />
               </Col>
             ))}
           </Row>

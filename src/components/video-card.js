@@ -6,13 +6,14 @@ import Skeleton from "react-loading-skeleton";
 import { formatDistanceToNow } from "date-fns";
 import "./video-card.css";
 
-export default function VideoCard({ video }) {
+export default function VideoCard({ video, showUserName = true }) {
   if (!video) {
     video = {
       title: "New Workout!",
       docId: "abc123",
       views: 200000,
       dateCreated: 23454345323453,
+      userName: "Mickey",
     };
   }
   return (
@@ -40,13 +41,18 @@ export default function VideoCard({ video }) {
         </div>
 
         <Card.Text className="text-muted">
-          <Link
-            to={ROUTES.CHANNEL.replace(":id", 1)}
-            className="text-reset text-decoration-none"
-          >
-            {video.channel || <Skeleton />}
-          </Link>
-          <br />
+          {showUserName && (
+            <>
+              <Link
+                to={ROUTES.CHANNEL.replace(":id", 1)}
+                className="text-reset text-decoration-none"
+              >
+                {video.userName || <Skeleton />}
+              </Link>
+              <br />
+            </>
+          )}
+
           {video ? (
             <>
               {video.views} views • {formatDistanceToNow(video.dateCreated)} ago
