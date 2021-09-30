@@ -1,5 +1,5 @@
 import { LinkContainer } from "react-router-bootstrap";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Container, Button, Image, Row, Col } from "react-bootstrap";
 import VideoCard from "../components/video-card";
 import * as ROUTES from "../constants/routes";
@@ -7,10 +7,12 @@ import useVideos from "../hooks/use-videos";
 
 // Firebase + User
 import UserContext from "../context/user";
+import useUserWithAuthId from "../hooks/use-user-with-auth-id";
 
 export default function Profile() {
   const { user: loggedInUser } = useContext(UserContext);
-  const { videos } = useVideos(loggedInUser);
+  const { user } = useUserWithAuthId(loggedInUser.uid);
+  const { videos } = useVideos(user);
 
   return (
     <Container>

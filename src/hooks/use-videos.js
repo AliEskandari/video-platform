@@ -6,14 +6,16 @@ export default function useVideos(user) {
 
   useEffect(() => {
     async function getUserVideos() {
-      const results = await getUserVideosByUserId(user.uid);
-      // re-arrange array to be newest videos first by dateCreated
-      results.sort((a, b) => b.dateCreated - a.dateCreated);
-      setVideos(results);
+      if (user) {
+        const results = await getUserVideosByUserId(user.docId);
+        // re-arrange array to be newest videos first by dateCreated
+        results.sort((a, b) => b.dateCreated - a.dateCreated);
+        setVideos(results);
+      }
     }
 
     getUserVideos();
-  }, [user?.uid]);
+  }, [user?.docId]);
 
   return { videos };
 }

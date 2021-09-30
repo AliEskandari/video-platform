@@ -7,6 +7,7 @@ import {
 } from "firebase/auth";
 import {
   addDoc,
+  setDoc,
   collection,
   doc,
   getDoc,
@@ -27,9 +28,12 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const storage = getStorage(app);
 
-// get user from the firestore where userId === userId (passed from the auth)
-export async function getUserByUserId(userId) {
-  const q = query(collection(db, "users"), where("userId", "==", userId));
+// get user from the firestore where userAuthId === userAuthId (passed from the auth)
+export async function getUserByUserAuthId(userAuthId) {
+  const q = query(
+    collection(db, "users"),
+    where("userAuthId", "==", userAuthId)
+  );
   const querySnapshot = await getDocs(q);
 
   const user = querySnapshot.docs.map((doc) => ({
@@ -93,7 +97,7 @@ export async function uploadVideo(userDoc, file, video, onProgress, onDone) {
   };
 
   // upload file
-  const storageRef = ref(storage, `videos/${userDoc.uid}/${file.name}`);
+  const storageRef = ref(storage, `videos/${userDoc.docId}/${file.name}`);
   const uploadTask = uploadBytesResumable(storageRef, file, metadata);
 
   // listen for state changes, errors, and completion of the upload
@@ -138,16 +142,19 @@ export async function uploadVideo(userDoc, file, video, onProgress, onDone) {
       getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
         console.log("File available at", downloadURL);
         // add doc to video collection
-        await addDoc(collection(db, "videos"), {
+        const videoRef = await addDoc(collection(db, "videos"), {
           title: video.title,
           description: video.description,
           exclusive: video.exclusive,
           dateCreated: Date.now(),
           url: downloadURL,
-          userId: userDoc.userId,
           views: 0,
           userName: userDoc.name,
           userId: userDoc.docId,
+        });
+
+        await setDoc(doc(db, `users/${userDoc.docId}/videos`, videoRef.id), {
+          owned: true,
         });
 
         await onDone();
