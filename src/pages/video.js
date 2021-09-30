@@ -1,16 +1,17 @@
-import React, { useContext, useState, useEffect } from "react";
-import { Container, Row, Col, Image, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
+import Plyr from "plyr";
+import React, { useContext, useEffect, useState } from "react";
+import { Button, Col, Container, Row } from "react-bootstrap";
+import Skeleton from "react-loading-skeleton";
+import { Link, useParams } from "react-router-dom";
 import VideoCard from "../components/video-card";
 import * as ROUTES from "../constants/routes";
 import ModalContext from "../context/modal";
 import { getVideoById } from "../services/firebase";
-import Plyr from "plyr";
+import { format } from "date-fns";
 
 export default function Video() {
   const { id } = useParams();
-  const [video, setVideo] = useState({});
+  const [video, setVideo] = useState(null);
 
   useEffect(() => {
     const getVideoObj = async () => {
@@ -28,18 +29,24 @@ export default function Video() {
       <Row>
         {/* Video */}
         <Col sm={12} md={8} lg={8}>
-          <div className="mb-4">
-            <video id="player" playsInline controls>
-              <source src={video.url} />
+          <div className="mb-4" style={{ minHeight: "480px" }}>
+            <video id="player" className="w-100" playsInline controls>
+              <source src={video?.url} />
             </video>
           </div>
-          {/* <Image
-            className="mb-4"
-            src="https://via.placeholder.com/1080x720"
-            fluid
-          ></Image> */}
-          <h4>{video.title || "New Workout!"}</h4>
-          <p>{video.views || "145,918"} views • Sep 15, 2021</p>
+
+          <h4>{video?.title || <Skeleton width={800} />}</h4>
+          {video ? (
+            <p>
+              {video.views.toString()} views •{" "}
+              {format(video.dateCreated, "MMM dd, yyyy")}
+            </p>
+          ) : (
+            <p>
+              <Skeleton width={400} />
+            </p>
+          )}
+
           <hr />
           <div className="d-flex justify-content-between align-items-center mb-4">
             <div>
@@ -60,18 +67,7 @@ export default function Video() {
               Subscribe
             </Button>
           </div>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque a
-            lectus sit amet orci rhoncus pellentesque molestie mattis justo.
-            Aenean quis felis interdum, auctor arcu at, imperdiet sapien.
-            Praesent dictum sit amet nisl nec tempus. Ut vel malesuada turpis.
-            Aliquam varius eros leo, ut placerat urna scelerisque quis. Morbi
-            orci est, porttitor sit amet risus eget, sagittis mattis diam. Nam
-            est ante, finibus sit amet purus porttitor, aliquam hendrerit orci.
-            Vestibulum fermentum accumsan erat, nec feugiat dolor tempor ac.
-            Vivamus dictum hendrerit faucibus. Vivamus posuere mi purus, non
-            rutrum lacus aliquet facilisis.
-          </p>
+          <p>{video?.description || <Skeleton />}</p>
         </Col>
         {/* Related Videos */}
         <Col>

@@ -2,6 +2,8 @@ import React from "react";
 import { Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import * as ROUTES from "../constants/routes";
+import Skeleton from "react-loading-skeleton";
+import { formatDistanceToNow } from "date-fns";
 import "./video-card.css";
 
 export default function VideoCard({ video }) {
@@ -10,6 +12,7 @@ export default function VideoCard({ video }) {
       title: "New Workout!",
       docId: "abc123",
       views: 200000,
+      dateCreated: 23454345323453,
     };
   }
   return (
@@ -25,7 +28,7 @@ export default function VideoCard({ video }) {
               to={ROUTES.VIDEO.replace(":id", video.docId)}
               className="text-reset text-decoration-none"
             >
-              {video.title}
+              {video.title || <Skeleton />}
             </Link>
           </Card.Title>
           <Link
@@ -41,10 +44,18 @@ export default function VideoCard({ video }) {
             to={ROUTES.CHANNEL.replace(":id", 1)}
             className="text-reset text-decoration-none"
           >
-            Channel X
+            {video.channel || <Skeleton />}
           </Link>
           <br />
-          {video.views} views • 3 days ago
+          {video ? (
+            <>
+              {video.views} views • {formatDistanceToNow(video.dateCreated)} ago
+            </>
+          ) : (
+            <>
+              <Skeleton />
+            </>
+          )}
         </Card.Text>
       </Card.Body>
     </Card>
