@@ -17,7 +17,7 @@ export default function Video() {
     const getVideoObj = async () => {
       const vid = await getVideoById(id);
       setVideo(vid);
-      const player = new Plyr("#player");
+      new Plyr("#player");
     };
     getVideoObj();
   }, []);
