@@ -1,62 +1,31 @@
-import { useState, useContext, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
-import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import * as ROUTES from "../constants/routes";
-
-// Firebase
-import FirebaseContext from "../context/firebase";
 import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
-import { getFirestore, collection, addDoc } from "firebase/firestore";
-import { signInWithGoogle } from "../services/firebase";
+  signInWithGoogle,
+  signUpWithEmailAndPassword,
+} from "../services/firebase";
 
 export default function SignIn() {
   const history = useHistory();
 
-  const { app } = useContext(FirebaseContext);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-
-  const [emailAddress, setEmailAddress] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
 
   const [error, setError] = useState("");
-  const isInvalid = password === "" || emailAddress === "";
+  const isInvalid = password === "" || email === "";
 
   const handleSignUp = async (event) => {
     event.preventDefault();
 
     try {
-      const createdUserResult = await createUserWithEmailAndPassword(
-        auth,
-        emailAddress,
-        password
-      );
-
-      // authentication
-      // -> emailAddress & password & full name (displayName)
-      await updateProfile(createdUserResult.user, {
-        displayName: fullName,
-      });
-
-      // firebase user collection (create a document)
-      await addDoc(collection(db, "users"), {
-        userId: createdUserResult.user.uid,
-        fullName,
-        emailAddress: emailAddress.toLowerCase(),
-        following: [],
-        followers: [],
-        dateCreated: Date.now(),
-      });
-
+      await signUpWithEmailAndPassword(email, password, fullName);
       history.push(ROUTES.HOME);
     } catch (error) {
       setFullName("");
-      setEmailAddress("");
+      setEmail("");
       setPassword("");
       setError(error.message);
     }
@@ -70,7 +39,7 @@ export default function SignIn() {
       history.push(ROUTES.HOME);
     } catch (error) {
       setFullName("");
-      setEmailAddress("");
+      setEmail("");
       setPassword("");
       setError(error.message);
     }
@@ -95,8 +64,8 @@ export default function SignIn() {
               <Form.Control
                 type="email"
                 placeholder="Email"
-                onChange={({ target }) => setEmailAddress(target.value)}
-                value={emailAddress}
+                onChange={({ target }) => setEmail(target.value)}
+                value={email}
               />
             </Form.Group>
             <Form.Group className="mb-3">

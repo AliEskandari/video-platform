@@ -1,4 +1,10 @@
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import {
   addDoc,
   collection,
@@ -40,6 +46,28 @@ export async function doesEmailExist(email) {
   return querySnapshot.length > 0;
 }
 
+export async function signUpWithEmailAndPassword(email, password, name) {
+  const createdUserResult = await createUserWithEmailAndPassword(
+    auth,
+    email,
+    password
+  );
+
+  // set display name to user's full name
+  await updateProfile(createdUserResult.user, {
+    displayName: name,
+  });
+
+  await addDoc(collection(db, "users"), {
+    userAuthId: createdUserResult.user.uid,
+    name,
+    email: email.toLowerCase(),
+    following: [],
+    followers: [],
+    dateCreated: Date.now(),
+  });
+}
+
 export async function signInWithGoogle() {
   const provider = new GoogleAuthProvider();
 
@@ -49,9 +77,9 @@ export async function signInWithGoogle() {
   if (!doesEmailExist(user.email)) {
     // firebase user collection (create a document)
     await addDoc(collection(db, "users"), {
-      userId: user.uid,
-      fullName: user.displayName,
-      emailAddress: user.email.toLowerCase(),
+      userAuthId: user.uid,
+      name: user.displayName,
+      email: user.email.toLowerCase(),
       following: [],
       followers: [],
       dateCreated: Date.now(),
@@ -60,20 +88,19 @@ export async function signInWithGoogle() {
 }
 
 export async function uploadVideo(userDoc, file, video, onProgress, onDone) {
-  // Create the file metadata
   const metadata = {
     contentType: file.type,
   };
 
-  // Upload file and metadata to the object
+  // upload file
   const storageRef = ref(storage, `videos/${userDoc.uid}/${file.name}`);
   const uploadTask = uploadBytesResumable(storageRef, file, metadata);
 
-  // Listen for state changes, errors, and completion of the upload.
+  // listen for state changes, errors, and completion of the upload
   uploadTask.on(
     "state_changed",
     (snapshot) => {
-      // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+      // calculate progress
       const progress = (
         (snapshot.bytesTransferred / snapshot.totalBytes) *
         100
@@ -101,19 +128,16 @@ export async function uploadVideo(userDoc, file, video, onProgress, onDone) {
         case "storage/canceled":
           // User canceled the upload
           break;
-
-        // ...
-
         case "storage/unknown":
           // Unknown error occurred, inspect error.serverResponse
           break;
       }
     },
     () => {
-      // Upload completed successfully, now we can get the download URL
+      // upload complete, get download url
       getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
         console.log("File available at", downloadURL);
-        // Add doc to video collection
+        // add doc to video collection
         await addDoc(collection(db, "videos"), {
           title: video.title,
           description: video.description,
@@ -122,8 +146,11 @@ export async function uploadVideo(userDoc, file, video, onProgress, onDone) {
           url: downloadURL,
           userId: userDoc.userId,
           views: 0,
+          userName: userDoc.name,
+          userId: userDoc.docId,
         });
-        onDone();
+
+        await onDone();
       });
     }
   );
