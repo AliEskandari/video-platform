@@ -180,7 +180,7 @@ export async function uploadVideo(userDoc, file, video, onProgress, onDone) {
       // upload complete, get download url
       getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
         console.log("File available at", downloadURL);
-        debugger;
+
         // add doc to video collection
         const videoRef = await addDoc(collection(db, "videos"), {
           title: video.title,
@@ -194,10 +194,10 @@ export async function uploadVideo(userDoc, file, video, onProgress, onDone) {
         });
 
         await setDoc(doc(db, `users/${userDoc.docId}/videos`, videoRef.id), {
-          docId: videoRef.id,
+          id: videoRef.id,
         });
 
-        onDone();
+        onDone(downloadURL);
       });
     }
   );
