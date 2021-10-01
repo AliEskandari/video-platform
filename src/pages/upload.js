@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 import UserContext from "../context/user";
 import useUser from "../hooks/use-user";
 import * as ROUTES from "../constants/routes";
+import PubSub from "pubsub-js";
 
 // Alert
 import AlertContext from "../context/alert";
@@ -32,11 +33,17 @@ export default function Upload() {
 
   const onProgress = (progress) => {
     const message = "Uploading video..." + progress + "% done";
-    setAlert(message);
+    setAlert({ text: message });
   };
 
-  const onDone = () => {
-    setAlert("Uploading video...done", true);
+  const onDone = (link) => {
+    PubSub.publish("UPLOADING_DONE", { user });
+
+    setAlert({
+      text: "Uploading video...done",
+      dismissible: true,
+      link: link,
+    });
   };
 
   return (

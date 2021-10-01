@@ -1,18 +1,28 @@
+import React, { useContext, useEffect, useState } from "react";
 import { LinkContainer } from "react-router-bootstrap";
-import React, { useContext } from "react";
 import { Container, Button, Image, Row, Col } from "react-bootstrap";
 import VideoCard from "../components/video-card";
 import * as ROUTES from "../constants/routes";
 import useVideos from "../hooks/use-videos";
-
-// Firebase + User
 import UserContext from "../context/user";
 import useUser from "../hooks/use-user";
+import PubSub from "pubsub-js";
 
 export default function Profile() {
   const { user: loggedInUser } = useContext(UserContext);
   const { user } = useUser(loggedInUser.uid);
-  const { videos } = useVideos(user);
+  const { videos, fetchVideos } = useVideos(user);
+
+  const onUploadDone = (msg, data) => {
+    fetchVideos(data.user);
+  };
+
+  useEffect(() => {
+    const token = PubSub.subscribe("UPLOADING_DONE", onUploadDone);
+    return () => {
+      PubSub.unsubscribe(token);
+    };
+  }, []);
 
   return (
     <Container>
