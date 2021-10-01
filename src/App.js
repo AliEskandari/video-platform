@@ -50,7 +50,7 @@ function App() {
   const [alertShow, setAlertShow] = useState(false);
   const [alertText, setAlertText] = useState("");
   const [alertDismissible, setAlertDismissible] = useState(false);
-  const setAlert = (text, dismissible = false) => {
+  const setAlert = ({ text = "", dismissible = false, link = "" } = {}) => {
     setAlertText(text);
     setAlertDismissible(dismissible);
     setAlertShow(true);
