@@ -13,7 +13,7 @@ export default function useVideos(user) {
 
   useEffect(() => {
     if (user) {
-      fetchVideo();
+      fetchVideos();
     }
   }, [user?.id]);
 
