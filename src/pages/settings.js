@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Container, Row, Form, Button, Col } from "react-bootstrap";
+import UserContext from "../context/user";
+import { deleteUser } from "../services/firebase";
 
 export default function Settings() {
+  const { user: authUser } = useContext(UserContext);
+  const handleDeleteAccount = () => {
+    deleteUser(authUser);
+  };
   return (
     <Container>
       <Row className="justify-content-center">
@@ -57,6 +63,7 @@ export default function Settings() {
               <Form.Control type="password" placeholder="Password" />
             </Form.Group>
           </Row>
+          <Button onClick={handleDeleteAccount}>Delete Account</Button>
         </Col>
       </Row>
     </Container>

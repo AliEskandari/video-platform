@@ -3,7 +3,7 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import { uploadVideo } from "../services/firebase";
 import { useHistory } from "react-router-dom";
 import UserContext from "../context/user";
-import useUserWithAuthId from "../hooks/use-user-with-auth-id";
+import useUser from "../hooks/use-user";
 import * as ROUTES from "../constants/routes";
 
 // Alert
@@ -12,7 +12,7 @@ import AlertContext from "../context/alert";
 export default function Upload() {
   const history = useHistory();
   const { user: loggedInUser } = useContext(UserContext);
-  const { user } = useUserWithAuthId(loggedInUser.uid);
+  const { user } = useUser(loggedInUser.uid);
   const { setAlert } = useContext(AlertContext);
 
   const fileInput = useRef("");

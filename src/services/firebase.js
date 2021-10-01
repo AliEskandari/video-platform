@@ -1,24 +1,29 @@
 import {
+  createUserWithEmailAndPassword,
+  deleteUser as deleteAuthUser,
   getAuth,
   GoogleAuthProvider,
+  reauthenticateWithCredential,
   signInWithPopup,
-  createUserWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
 import {
   addDoc,
-  setDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
   getFirestore,
   query,
+  setDoc,
   where,
 } from "firebase/firestore";
 import {
+  deleteObject,
   getDownloadURL,
   getStorage,
+  listAll,
   ref,
   uploadBytesResumable,
 } from "firebase/storage";
@@ -28,27 +33,9 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const storage = getStorage(app);
 
-// get user from the firestore where userAuthId === userAuthId (passed from the auth)
-export async function getUserByUserAuthId(userAuthId) {
-  const q = query(
-    collection(db, "users"),
-    where("userAuthId", "==", userAuthId)
-  );
-  const querySnapshot = await getDocs(q);
-
-  const user = querySnapshot.docs.map((doc) => ({
-    ...doc.data(),
-    docId: doc.id,
-  }));
-
-  return user; // => [{}] if found or [] if no user found
-}
-
-export async function doesEmailExist(email) {
-  const q = query(collection(db, "users"), where("email", "==", email));
-  const querySnapshot = await getDocs(q);
-  return querySnapshot.length > 0;
-}
+// ===========================================
+// Auth
+// ===========================================
 
 export async function signUpWithEmailAndPassword(email, password, name) {
   const createdUserResult = await createUserWithEmailAndPassword(
@@ -62,8 +49,7 @@ export async function signUpWithEmailAndPassword(email, password, name) {
     displayName: name,
   });
 
-  await addDoc(collection(db, "users"), {
-    userAuthId: createdUserResult.user.uid,
+  await setDoc(doc(db, "users", createdUserResult.user.uid), {
     name,
     email: email.toLowerCase(),
     following: [],
@@ -80,8 +66,7 @@ export async function signInWithGoogle() {
 
   if (!doesEmailExist(user.email)) {
     // firebase user collection (create a document)
-    await addDoc(collection(db, "users"), {
-      userAuthId: user.uid,
+    await setDoc(doc(db, "users", user.uid), {
       name: user.displayName,
       email: user.email.toLowerCase(),
       following: [],
@@ -90,6 +75,60 @@ export async function signInWithGoogle() {
     });
   }
 }
+
+// ===========================================
+// Users
+// ===========================================
+
+// get user from the firestore where userId === userId (passed from the )
+export async function getUserById(userId) {
+  const docRef = doc(db, "users", userId);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+    return { ...docSnap.data(), id: userId };
+  } else {
+    // doc.data() will be undefined in this case
+    return null;
+  }
+}
+
+export async function doesEmailExist(email) {
+  const q = query(collection(db, "users"), where("email", "==", email));
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.length > 0;
+}
+
+export async function deleteUser(authUser) {
+  // storage: delete user's folder
+  const storageRef = ref(storage, `videos/${authUser.uid}`);
+  await deleteFolder(storageRef);
+
+  // firestore: delete video docs linked to user
+  // TODO: Use a cloud function -
+  // https://cloud.google.com/firestore/docs/solutions/delete-collections
+
+  // firestore: delete user doc
+  await deleteDoc(doc(db, "users", authUser.uid));
+
+  // auth: delete user in auth system
+  try {
+    await deleteAuthUser(authUser);
+  } catch (error) {
+    switch (error.code) {
+      case "auth/requires-recent-login":
+        // User needs to re-authenticate to delete auth account
+        // TODO(you): prompt the user to re-provide their sign-in credentials
+        // const credential = promptForCredentials();
+        // await reauthenticateWithCredential(authUser, credential);
+        break;
+    }
+  }
+}
+
+// ===========================================
+// Videos
+// ===========================================
 
 export async function uploadVideo(userDoc, file, video, onProgress, onDone) {
   const metadata = {
@@ -141,6 +180,7 @@ export async function uploadVideo(userDoc, file, video, onProgress, onDone) {
       // upload complete, get download url
       getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
         console.log("File available at", downloadURL);
+        debugger;
         // add doc to video collection
         const videoRef = await addDoc(collection(db, "videos"), {
           title: video.title,
@@ -150,20 +190,20 @@ export async function uploadVideo(userDoc, file, video, onProgress, onDone) {
           url: downloadURL,
           views: 0,
           userName: userDoc.name,
-          userId: userDoc.docId,
+          userId: userDoc.id,
         });
 
         await setDoc(doc(db, `users/${userDoc.docId}/videos`, videoRef.id), {
-          owned: true,
+          docId: videoRef.id,
         });
 
-        await onDone();
+        onDone();
       });
     }
   );
 }
 
-export async function getUserVideosByUserId(userId) {
+export async function getVideosByUserId(userId) {
   const q = query(collection(db, "videos"), where("userId", "==", userId));
   const querySnapshot = await getDocs(q);
 
@@ -184,4 +224,23 @@ export async function getVideoById(videoId) {
     // doc.data() will be undefined in this case
     return null;
   }
+}
+
+// ===========================================
+// Storage
+// ===========================================
+
+/**
+ * Deletes all objects in a user's folder in storage. Will do nothing if the user
+ * doesn't have a folder.
+ *
+ * @param {} storageRef
+ * @returns {Promise}
+ */
+async function deleteFolder(storageRef) {
+  const listRef = await listAll(storageRef);
+  const promises = listRef.items.map((item) => {
+    return deleteObject(item);
+  });
+  return Promise.all(promises);
 }

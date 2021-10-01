@@ -7,11 +7,11 @@ import useVideos from "../hooks/use-videos";
 
 // Firebase + User
 import UserContext from "../context/user";
-import useUserWithAuthId from "../hooks/use-user-with-auth-id";
+import useUser from "../hooks/use-user";
 
 export default function Profile() {
   const { user: loggedInUser } = useContext(UserContext);
-  const { user } = useUserWithAuthId(loggedInUser.uid);
+  const { user } = useUser(loggedInUser.uid);
   const { videos } = useVideos(user);
 
   return (

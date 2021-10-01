@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getUserVideosByUserId } from "../services/firebase";
+import { getVideosByUserId } from "../services/firebase";
 
 export default function useVideos(user) {
   const [videos, setVideos] = useState([]);
@@ -7,7 +7,7 @@ export default function useVideos(user) {
   useEffect(() => {
     async function getUserVideos() {
       if (user) {
-        const results = await getUserVideosByUserId(user.docId);
+        const results = await getVideosByUserId(user.docId);
         // re-arrange array to be newest videos first by dateCreated
         results.sort((a, b) => b.dateCreated - a.dateCreated);
         setVideos(results);
