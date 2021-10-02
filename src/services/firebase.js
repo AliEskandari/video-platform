@@ -228,6 +228,15 @@ export async function getVideoById(videoId) {
   }
 }
 
+export async function getAllVideos() {
+  const snapshot = await getDocs(collection(db, "videos"));
+  const videos = snapshot.docs.map((video) => ({
+    ...video.data(),
+    docId: video.id,
+  }));
+  return videos;
+}
+
 // ===========================================
 // Storage
 // ===========================================
