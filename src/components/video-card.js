@@ -34,7 +34,7 @@ export default function VideoCard({ video, showUserName = true }) {
           {showUserName && (
             <>
               <Link
-                to={ROUTES.CHANNEL.replace(":id", 1)}
+                to={ROUTES.CHANNEL.replace(":id", video?.userId)}
                 className="text-reset text-decoration-none"
               >
                 {video?.userName || <Skeleton width="50%" />}
