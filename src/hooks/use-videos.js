@@ -1,20 +1,36 @@
 import { useState, useEffect } from "react";
-import { getVideosByUserId } from "../services/firebase";
+import { getVideosByUserId, getAllVideos } from "../services/firebase";
 
-export default function useVideos(user) {
+/**
+ * Initializes videos to an empty array until data is fetched
+ * from backend.
+ * @param {*} options filter videos by user or all; must choose one
+ * @returns
+ */
+export default function useVideos({ user, all } = {}) {
   const [videos, setVideos] = useState([]);
   const [reload, setReload] = useState(null);
 
   useEffect(() => {
-    async function fetchVideos() {
+    async function fetchUserVideos() {
       const results = await getVideosByUserId(user.id);
-      // re-arrange array to be newest videos first by dateCreated
+      // sort array newest first
       results.sort((a, b) => b.dateCreated - a.dateCreated);
       setVideos(results);
     }
+
+    async function fetchAllVideos() {
+      const results = await getAllVideos();
+      // sort array newest first
+      results.sort((a, b) => b.dateCreated - a.dateCreated);
+      setVideos(results);
+    }
+
     if (user) {
-      fetchVideos();
-      setReload(() => fetchVideos);
+      fetchUserVideos();
+      setReload(() => fetchUserVideos);
+    } else if (all) {
+      fetchAllVideos();
     }
   }, [user?.id]);
 
