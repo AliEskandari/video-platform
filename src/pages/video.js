@@ -6,23 +6,21 @@ import { Link, useParams } from "react-router-dom";
 import VideoCard from "../components/video-card";
 import * as ROUTES from "../constants/routes";
 import ModalContext from "../context/modal";
-import { getVideoById } from "../services/firebase";
 import { format } from "date-fns";
+import useVideo from "../hooks/use-video";
+import useUser from "../hooks/use-user";
 
 export default function Video() {
-  const { id } = useParams();
-  const [video, setVideo] = useState(null);
+  const { id: videoId } = useParams();
+  const { video } = useVideo(videoId);
+  const { user } = useUser(video?.userId);
+  const { handleShow } = useContext(ModalContext);
 
   useEffect(() => {
-    const getVideoObj = async () => {
-      const vid = await getVideoById(id);
-      setVideo(vid);
+    if (video) {
       new Plyr("#player");
-    };
-    getVideoObj();
-  }, []);
-
-  const { handleShow } = useContext(ModalContext);
+    }
+  }, [video]);
 
   return (
     <Container>
@@ -54,9 +52,11 @@ export default function Video() {
                 to={ROUTES.CHANNEL.replace(":id", 1)}
                 className="text-reset text-decoration-none"
               >
-                <h5 className="mb-0">Wally's Workouts</h5>
+                <h5 className="mb-0">{user?.name || <Skeleton />}</h5>
               </Link>
-              <small>100K subscribers</small>
+              <small>
+                {user ? `${user.subscriberCount} subscribers` : <Skeleton />}
+              </small>
             </div>
             <Button
               variant="primary"
@@ -67,7 +67,7 @@ export default function Video() {
               Subscribe
             </Button>
           </div>
-          <p>{video?.description || <Skeleton />}</p>
+          <p>{video?.description || " " || <Skeleton height={100} />}</p>
         </Col>
         {/* Related Videos */}
         <Col>

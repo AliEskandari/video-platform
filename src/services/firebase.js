@@ -55,6 +55,7 @@ export async function signUpWithEmailAndPassword(email, password, name) {
     following: [],
     followers: [],
     dateCreated: Date.now(),
+    subscriberCount: 0,
   });
 }
 
@@ -72,6 +73,7 @@ export async function signInWithGoogle() {
       following: [],
       followers: [],
       dateCreated: Date.now(),
+      subscriberCount: 0,
     });
   }
 }
