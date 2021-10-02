@@ -45,35 +45,30 @@ export default function Profile() {
               </Button>
             </LinkContainer>
           </div>
+          <p>{user?.bio}</p>
+
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque a
-            lectus sit amet orci rhoncus pellentesque molestie mattis justo.
-            Aenean quis felis interdum, auctor arcu at, imperdiet sapien.
-            Praesent dictum sit amet nisl nec tempus.
+            <span>Specialty:</span> {user?.specialty}
           </p>
 
           <p>
-            <b>Specialty:</b> Kickboxing
+            <span>Country:</span> {user?.country}
           </p>
 
-          <p>
-            <b>Country:</b> United States
-          </p>
-
-          <p className="fs-2 fst-italic fw-lighter">"Always give it 110%!"</p>
+          <p className="fs-2 fst-italic fw-lighter">{user?.motivatement}</p>
         </Col>
       </Row>
 
       <Row>
         <Col>
           <Row xs={1} md={3} lg={4} xl={5} className="g-2">
-            {videos.map((video, idx) => (
+            {videos?.map((video, idx) => (
               <Col key={idx}>
                 <VideoCard video={video} showUserName={false} />
               </Col>
             ))}
 
-            {!videos.length &&
+            {!videos &&
               Array.from({ length: 20 }).map((_, idx) => (
                 <Col key={idx}>
                   <VideoCard showUserName={false} />

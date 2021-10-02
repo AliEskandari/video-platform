@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 import { getVideosByUserId, getAllVideos } from "../services/firebase";
 
 /**
- * Initializes videos to an empty array until data is fetched
+ * Initializes videos to undefined until data is fetched
  * from backend.
  * @param {*} options filter videos by user or all; must choose one
  * @returns
  */
 export default function useVideos({ user, all } = {}) {
-  const [videos, setVideos] = useState([]);
+  const [videos, setVideos] = useState();
   const [reload, setReload] = useState(null);
 
   useEffect(() => {

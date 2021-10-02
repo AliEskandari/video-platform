@@ -7,12 +7,12 @@ export default function Home() {
   return (
     <Container>
       <Row xs={1} sm={2} md={2} lg={3} xl={5} className="g-2">
-        {videos.map((video, idx) => (
+        {videos?.map((video, idx) => (
           <Col key={idx}>
             <VideoCard video={video} />
           </Col>
         ))}
-        {!videos.length &&
+        {!videos &&
           Array.from({ length: 40 }).map((_, idx) => (
             <Col key={idx}>
               <VideoCard />

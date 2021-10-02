@@ -40,11 +40,11 @@ export default function Channel() {
           <p>{user?.bio || <Skeleton />}</p>
 
           <p>
-            <b>Specialty:</b> {user?.speciality}
+            <span>Specialty:</span> {user?.specialty}
           </p>
 
           <p>
-            <b>Country:</b> {user?.country}
+            <span>Country:</span> {user?.country}
           </p>
 
           <p className="fs-2 fst-italic fw-lighter">{user?.motivatement}</p>
@@ -54,12 +54,12 @@ export default function Channel() {
       <Row>
         <Col>
           <Row xs={1} md={3} lg={4} xl={5} className="g-2">
-            {videos.map((video, idx) => (
+            {videos?.map((video, idx) => (
               <Col>
                 <VideoCard video={video} showUserName={false} />
               </Col>
             ))}
-            {!videos.length &&
+            {!videos &&
               Array.from({ length: 20 }).map((_, idx) => (
                 <Col>
                   <VideoCard showUserName={false} />
