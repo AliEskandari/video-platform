@@ -72,6 +72,13 @@ export default function Profile() {
                 <VideoCard video={video} showUserName={false} />
               </Col>
             ))}
+
+            {!videos.length &&
+              Array.from({ length: 20 }).map((_, idx) => (
+                <Col key={idx}>
+                  <VideoCard />
+                </Col>
+              ))}
           </Row>
         </Col>
       </Row>
