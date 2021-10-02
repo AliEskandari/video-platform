@@ -7,38 +7,28 @@ import { formatDistanceToNow } from "date-fns";
 import "./video-card.css";
 
 export default function VideoCard({ video, showUserName = true }) {
-  if (!video) {
-    video = {
-      title: "New Workout!",
-      docId: "abc123",
-      views: 200000,
-      dateCreated: 23454345323453,
-      userName: "Mickey",
-    };
-  }
   return (
     <Card className="border-0">
-      <Link className="card-img" to={ROUTES.VIDEO.replace(":id", video.docId)}>
-        {/* <Skeleton duration={100} className="img card-img-top" /> */}
-        <Card.Img variant="top" src="https://via.placeholder.com//160x100" />
+      <Link className="card-img" to={ROUTES.VIDEO.replace(":id", video?.docId)}>
+        {video?.thumbnail ? (
+          <Card.Img variant="top" src="https://via.placeholder.com//160x100" />
+        ) : (
+          <Skeleton
+            className="img card-img-top img-fluid"
+            width="100%"
+            style={{ paddingTop: "56.25%" }}
+          />
+        )}
       </Link>
       <Card.Body className="px-0">
-        <div className="d-flex justify-content-between">
-          <Card.Title className="text-truncate fs-6">
-            <Link
-              to={ROUTES.VIDEO.replace(":id", video.docId)}
-              className="text-reset text-decoration-none"
-            >
-              {video.title || <Skeleton />}
-            </Link>
-          </Card.Title>
+        <Card.Title className="text-truncate fs-6">
           <Link
-            to={ROUTES.EDIT_VIDEO}
-            className="edit-button float-end d-none text-black-50"
+            to={ROUTES.VIDEO.replace(":id", video?.docId)}
+            className="text-reset text-decoration-none"
           >
-            <i className="bi bi-pencil-fill"></i>
+            {video?.title || <Skeleton width="80%" />}
           </Link>
-        </div>
+        </Card.Title>
 
         <Card.Text className="text-muted">
           {showUserName && (
@@ -47,7 +37,7 @@ export default function VideoCard({ video, showUserName = true }) {
                 to={ROUTES.CHANNEL.replace(":id", 1)}
                 className="text-reset text-decoration-none"
               >
-                {video.userName || <Skeleton />}
+                {video?.userName || <Skeleton width="50%" />}
               </Link>
               <br />
             </>
@@ -59,7 +49,7 @@ export default function VideoCard({ video, showUserName = true }) {
             </>
           ) : (
             <>
-              <Skeleton />
+              <Skeleton width="90%" />
             </>
           )}
         </Card.Text>
