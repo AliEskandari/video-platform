@@ -26,8 +26,8 @@ export default function Video() {
     <Container>
       <Row>
         {/* Video */}
-        <Col sm={12} md={8} lg={8}>
-          <div className="mb-4" style={{ minHeight: "480px" }}>
+        <Col sm={12} md={12} lg={8}>
+          <div className="mb-4">
             <video id="player" className="w-100" playsInline controls>
               <source src={video?.url} />
             </video>
