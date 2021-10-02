@@ -37,7 +37,7 @@ export default function Upload() {
   };
 
   const onDone = (link) => {
-    PubSub.publish("UPLOADING_DONE", { user });
+    PubSub.publish("UPLOAD_DONE");
 
     setAlert({
       text: "Uploading video...done",

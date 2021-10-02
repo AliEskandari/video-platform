@@ -11,18 +11,17 @@ import PubSub from "pubsub-js";
 export default function Profile() {
   const { user: loggedInUser } = useContext(UserContext);
   const { user } = useUser(loggedInUser.uid);
-  const { videos, fetchVideos } = useVideos(user);
-
-  const onUploadDone = (msg, data) => {
-    fetchVideos(data.user);
-  };
+  const { videos, reload } = useVideos(user);
 
   useEffect(() => {
-    const token = PubSub.subscribe("UPLOADING_DONE", onUploadDone);
-    return () => {
-      PubSub.unsubscribe(token);
-    };
-  }, []);
+    if (reload) {
+      const onUploadDone = (msg, data) => reload();
+      const token = PubSub.subscribe("UPLOAD_DONE", onUploadDone);
+      return () => {
+        PubSub.unsubscribe(token);
+      };
+    }
+  }, [reload]);
 
   return (
     <Container>
