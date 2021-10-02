@@ -18,6 +18,7 @@ import {
   query,
   setDoc,
   where,
+  updateDoc,
 } from "firebase/firestore";
 import {
   deleteObject,
@@ -52,6 +53,10 @@ export async function signUpWithEmailAndPassword(email, password, name) {
   await setDoc(doc(db, "users", createdUserResult.user.uid), {
     name,
     email: email.toLowerCase(),
+    bio: "",
+    country: "",
+    specialty: "",
+    motivatement: "",
     following: [],
     followers: [],
     dateCreated: Date.now(),
@@ -70,6 +75,10 @@ export async function signInWithGoogle() {
     await setDoc(doc(db, "users", user.uid), {
       name: user.displayName,
       email: user.email.toLowerCase(),
+      bio: "",
+      country: "",
+      specialty: "",
+      motivatement: "",
       following: [],
       followers: [],
       dateCreated: Date.now(),
@@ -126,6 +135,14 @@ export async function deleteUser(authUser) {
         break;
     }
   }
+}
+
+export async function updateUser(userId, userData) {
+  await updateProfile(auth.currentUser, {
+    displayName: userData.name,
+  });
+  const userRef = doc(db, "users", userId);
+  await updateDoc(userRef, userData);
 }
 
 // ===========================================
