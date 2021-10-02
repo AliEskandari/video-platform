@@ -11,7 +11,7 @@ import PubSub from "pubsub-js";
 export default function Profile() {
   const { user: loggedInUser } = useContext(UserContext);
   const { user } = useUser(loggedInUser.uid);
-  const { videos, reload } = useVideos(user);
+  const { videos, reload } = useVideos({ user });
 
   useEffect(() => {
     if (reload) {
