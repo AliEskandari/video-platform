@@ -155,7 +155,7 @@ export async function uploadVideo(userDoc, file, video, onProgress, onDone) {
   };
 
   // upload file
-  const storageRef = ref(storage, `videos/${userDoc.docId}/${file.name}`);
+  const storageRef = ref(storage, `videos/${userDoc.id}/${file.name}`);
   const uploadTask = uploadBytesResumable(storageRef, file, metadata);
 
   // listen for state changes, errors, and completion of the upload

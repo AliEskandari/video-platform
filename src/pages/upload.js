@@ -21,11 +21,22 @@ export default function Upload() {
   const [description, setDescription] = useState("");
   const [exclusive, setExclusive] = useState(false);
 
+  // setup warning for exiting during upload
+  const handleBeforeUnload = (event) => {
+    event.preventDefault();
+    return (event.returnValue =
+      "Are you sure you want to close? Closing will end the upload.");
+  };
+
   const handlePublish = (event) => {
     event.preventDefault();
 
+    // setup warning for exiting during upload
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
     const file = fileInput.current.files[0];
     const video = { title, description, exclusive };
+
     uploadVideo(user, file, video, onProgress, onDone);
 
     history.push(ROUTES.PROFILE);
@@ -38,6 +49,9 @@ export default function Upload() {
 
   const onDone = (link) => {
     PubSub.publish("UPLOAD_DONE");
+
+    // remove warning for exiting during upload
+    window.removeEventListener("beforeunload", handleBeforeUnload);
 
     setAlert({
       text: "Uploading video...done",
