@@ -70,7 +70,7 @@ export async function signInWithGoogle() {
   const result = await signInWithPopup(auth, provider);
   const user = result.user;
 
-  if (!doesEmailExist(user.email)) {
+  if (!(await doesEmailExist(user.email))) {
     // firebase user collection (create a document)
     await setDoc(doc(db, "users", user.uid), {
       name: user.displayName,
@@ -107,7 +107,7 @@ export async function getUserById(userId) {
 export async function doesEmailExist(email) {
   const q = query(collection(db, "users"), where("email", "==", email));
   const querySnapshot = await getDocs(q);
-  return querySnapshot.length > 0;
+  return querySnapshot.docs.length > 0;
 }
 
 export async function deleteUser(authUser) {
