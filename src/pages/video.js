@@ -49,7 +49,7 @@ export default function Video() {
           <div className="d-flex justify-content-between align-items-center mb-4">
             <div>
               <Link
-                to={ROUTES.CHANNEL.replace(":id", 1)}
+                to={ROUTES.CHANNEL.replace(":id", video?.userId)}
                 className="text-reset text-decoration-none"
               >
                 <h5 className="mb-0">{user?.name || <Skeleton />}</h5>
@@ -59,7 +59,7 @@ export default function Video() {
               </small>
             </div>
             <Button
-              variant="primary"
+              variant="outline-primary"
               className=""
               size="sm"
               onClick={() => handleShow("Subscribe for 4.99?")}

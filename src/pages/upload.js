@@ -66,16 +66,14 @@ export default function Upload() {
         <Col xs={12} md={8} xl={6} className="border-3">
           <Form>
             <div className="mb-3 d-flex justify-content-between align-items-center">
-              <h2 className="mb-0 lh-base">New Video</h2>
-              <Button variant="primary" type="submit" onClick={handlePublish}>
-                PUBLISH
-              </Button>
+              <h2 className="mb-0">New Video</h2>
             </div>
             <Form.Group controlId="formFile" className="mb-3">
               <Form.Label>File</Form.Label>
               <Form.Control
                 type="file"
                 ref={fileInput}
+                className="w-50"
                 accept="video/mp4, video/mpeg, video/quicktime"
               />
               <Form.Text id="" muted></Form.Text>
@@ -99,7 +97,7 @@ export default function Upload() {
                 onChange={({ target }) => setDescription(target.value)}
               />
             </Form.Group>
-            <Form.Group className="pb-3">
+            <Form.Group className="mb-4">
               <Form.Check
                 type="switch"
                 id=""
@@ -111,6 +109,14 @@ export default function Upload() {
                 Activate to make video visible only to your subscribers.
               </Form.Text>
             </Form.Group>
+            <Button
+              variant="outline-primary"
+              className="float-start mb-3"
+              type="submit"
+              onClick={handlePublish}
+            >
+              Publish
+            </Button>
           </Form>
         </Col>
       </Row>

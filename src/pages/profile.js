@@ -39,9 +39,9 @@ export default function Profile() {
           <div className="d-flex justify-content-between align-items-center mb-4">
             <span className="fs-1">{loggedInUser.displayName}</span>
             <LinkContainer to={ROUTES.SETTINGS}>
-              <Button variant="primary" className="" size="sm">
+              <Button variant="outline-primary" className="" size="">
                 <i className="bi bi-gear"></i>
-                <span className="ms-2">EDIT PROFILE</span>
+                <span className="ms-2">Edit Profile</span>
               </Button>
             </LinkContainer>
           </div>

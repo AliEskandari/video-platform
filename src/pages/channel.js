@@ -29,7 +29,7 @@ export default function Channel() {
           <div className="d-flex justify-content-between align-items-center mb-4">
             <span className="fs-1">{user?.name || <Skeleton />}</span>
             <Button
-              variant="primary"
+              variant="outline-primary"
               className=""
               size="sm"
               onClick={() => handleShow("Subscribe for $4.99?")}

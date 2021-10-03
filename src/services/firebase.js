@@ -111,23 +111,24 @@ export async function doesEmailExist(email) {
 }
 
 export async function deleteUser(authUser) {
-  // storage: delete user's folder
-  const storageRef = ref(storage, `videos/${authUser.uid}`);
-  await deleteFolder(storageRef);
-
-  // firestore: delete video docs linked to user
-  // TODO: Use a cloud function -
-  // https://cloud.google.com/firestore/docs/solutions/delete-collections
-
-  // firestore: delete user doc
-  await deleteDoc(doc(db, "users", authUser.uid));
-
-  // auth: delete user in auth system
   try {
+    // storage: delete user's folder
+    const storageRef = ref(storage, `videos/${authUser.uid}`);
+    await deleteFolder(storageRef);
+
+    // firestore: delete video docs linked to user
+    // TODO: Use a cloud function -
+    // https://cloud.google.com/firestore/docs/solutions/delete-collections
+
+    // firestore
+    await deleteDoc(doc(db, "users", authUser.uid));
+
+    // auth: delete user in auth system
     await deleteAuthUser(authUser);
   } catch (error) {
     switch (error.code) {
       case "auth/requires-recent-login":
+        console.log(error.code);
         // User needs to re-authenticate to delete auth account
         // TODO(you): prompt the user to re-provide their sign-in credentials
         // const credential = promptForCredentials();

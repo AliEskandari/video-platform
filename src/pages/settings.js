@@ -5,10 +5,12 @@ import useUser from "../hooks/use-user";
 import { deleteUser, updateUser } from "../services/firebase";
 import { useHistory } from "react-router-dom";
 import * as ROUTES from "../constants/routes";
+import ModalContext from "../context/modal";
 
 export default function Settings() {
   const { user: authUser } = useContext(UserContext);
   const { user } = useUser(authUser.uid);
+  const { handleShow } = useContext(ModalContext);
   const history = useHistory();
 
   const [name, setName] = useState("");
@@ -55,15 +57,7 @@ export default function Settings() {
         <Col xs={12} md={8} xl={6} className="border-3">
           <Form>
             <div className="mb-3 d-flex justify-content-between align-items-center">
-              <h2 className="mb-0 lh-base">Profile</h2>
-              <Button
-                variant="primary"
-                type="submit"
-                size=""
-                onClick={handleUpdateSettings}
-              >
-                SAVE
-              </Button>
+              <h2 className="mb-0">Profile</h2>
             </div>
             <Form.Group className="mb-3">
               <Form.Label>Name</Form.Label>
@@ -71,6 +65,7 @@ export default function Settings() {
                 type="text"
                 placeholder="Enter channel name"
                 value={name}
+                className="w-50"
                 onChange={({ target }) => setName(target.value)}
               />
             </Form.Group>
@@ -104,34 +99,49 @@ export default function Settings() {
                 />
               </Form.Group>
             </Row>
-            <Form.Group className="pb-3">
+            <Form.Group className="mb-3">
               <Form.Label>Motivatement</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Give it 110%!"
                 value={motivatement}
+                className="w-50"
                 onChange={({ target }) => setMotivatement(target.value)}
               />
             </Form.Group>
+            <Button
+              variant="outline-primary"
+              type="submit"
+              size=""
+              onClick={handleUpdateSettings}
+            >
+              Save
+            </Button>
           </Form>
           <hr />
-          <Row>
-            <div className="mb-3 d-flex justify-content-between align-items-center">
-              <h2 className="mb-0 lh-base">Account</h2>
-              <Button variant="primary" type="submit" size="">
-                SAVE
-              </Button>
-            </div>
-            <Form.Group as={Col} className="mb-3">
-              <Form.Label>Email</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" />
-            </Form.Group>
-            <Form.Group as={Col} className="mb-3">
-              <Form.Label>Password</Form.Label>
-              <Form.Control type="password" placeholder="Password" />
-            </Form.Group>
-          </Row>
-          <Button onClick={handleDeleteAccount}>Delete Account</Button>
+          <Form>
+            <Row>
+              <div className="mb-3 d-flex justify-content-between align-items-center">
+                <h2 className="mb-0">Account</h2>
+              </div>
+              <Form.Group as={Col} className="mb-3">
+                <Form.Label>Email</Form.Label>
+                <Form.Control type="email" placeholder="Enter email" />
+              </Form.Group>
+              <Form.Group as={Col} className="mb-3">
+                <Form.Label>Password</Form.Label>
+                <Form.Control type="password" placeholder="Password" />
+              </Form.Group>
+            </Row>
+            <Button variant="outline-primary" type="submit" size="">
+              Save
+            </Button>
+          </Form>
+
+          <hr />
+          <Button variant="outline-danger" onClick={handleDeleteAccount}>
+            Delete Account
+          </Button>
         </Col>
       </Row>
     </Container>
