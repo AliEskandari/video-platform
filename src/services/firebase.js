@@ -3,7 +3,6 @@ import {
   deleteUser as deleteAuthUser,
   getAuth,
   GoogleAuthProvider,
-  reauthenticateWithCredential,
   signInWithPopup,
   updateProfile,
 } from "firebase/auth";
@@ -17,9 +16,14 @@ import {
   getFirestore,
   query,
   setDoc,
-  where,
   updateDoc,
+  where,
 } from "firebase/firestore";
+import {
+  connectFunctionsEmulator,
+  getFunctions,
+  httpsCallable,
+} from "firebase/functions";
 import {
   deleteObject,
   getDownloadURL,
@@ -33,6 +37,8 @@ import { app } from "../lib/firebase";
 const db = getFirestore(app);
 const auth = getAuth(app);
 const storage = getStorage(app);
+const functions = getFunctions(app);
+connectFunctionsEmulator(functions, "localhost", 5001);
 
 // ===========================================
 // Auth
@@ -111,18 +117,31 @@ export async function doesEmailExist(email) {
 }
 
 export async function deleteUser(authUser) {
+  // storage: delete user's folder
   try {
-    // storage: delete user's folder
     const storageRef = ref(storage, `videos/${authUser.uid}`);
     await deleteFolder(storageRef);
+    console.log("storage: delete successfull");
+  } catch (error) {
+    console.log(error);
+  }
 
-    // firestore: delete video docs linked to user
-    // TODO: Use a cloud function -
-    // https://cloud.google.com/firestore/docs/solutions/delete-collections
+  // firestore: delete video docs linked to user
+  try {
+    await deleteFirestoreUserVideos(authUser.uid);
+    console.log("firestore: delete video docs successful");
+  } catch (error) {
+    console.log(error);
+  }
 
-    // firestore
+  // firestore: delete user doc
+  try {
     await deleteDoc(doc(db, "users", authUser.uid));
-
+    console.log("firestore: delete user doc successful");
+  } catch (error) {
+    console.log(error);
+  }
+  try {
     // auth: delete user in auth system
     await deleteAuthUser(authUser);
   } catch (error) {
@@ -272,4 +291,38 @@ async function deleteFolder(storageRef) {
     return deleteObject(item);
   });
   return Promise.all(promises);
+}
+
+// ===========================================
+// Firestore
+// ===========================================
+
+/**
+ * Call the 'recursiveDelete' callable function with a path to initiate
+ * a server-side delete.
+ */
+async function deleteCollection(userId, path) {
+  const deleteFn = httpsCallable(functions, "recursiveDelete");
+  try {
+    const result = await deleteFn({ userId, path });
+    console.log("Delete success: " + JSON.stringify(result));
+  } catch (error) {
+    console.log("Delete failed, see console,");
+    console.warn(error);
+  }
+}
+
+async function deleteFirestoreUserVideos(userId) {
+  try {
+    const q = query(collection(db, "videos"), where("userId", "==", userId));
+    const querySnapshot = await getDocs(q);
+
+    const promises = querySnapshot.docs.map((doc) => {
+      return deleteDoc(doc.ref);
+    });
+    return Promise.all(promises);
+  } catch (error) {
+    console.log("Delete failed, see console,");
+    console.warn(error);
+  }
 }
