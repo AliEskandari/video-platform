@@ -7,6 +7,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import {
+  onSnapshot,
   addDoc,
   collection,
   deleteDoc,
@@ -170,8 +171,12 @@ export async function updateUser(userId, userData) {
 // ===========================================
 
 export async function uploadVideo(user, file, video, onProgress, onDone) {
+  const newVideoDocRef = doc(collection(db, "videos"));
   const metadata = {
     contentType: file.type,
+    customMetadata: {
+      docId: newVideoDocRef.id,
+    },
   };
 
   // upload file
@@ -219,9 +224,16 @@ export async function uploadVideo(user, file, video, onProgress, onDone) {
       // upload complete, get download url
       getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
         console.log("File available at", downloadURL);
-
+        const unsub = onSnapshot(newVideoDocRef, (doc) => {
+          console.log("Current data: ", doc.data());
+          if (doc.data().thumbnail) {
+            console.log("File thumbnail and docs done");
+            unsub();
+            onDone(downloadURL);
+          }
+        });
         // add doc to video collection
-        const videoRef = await addDoc(collection(db, "videos"), {
+        await setDoc(newVideoDocRef, {
           title: video.title,
           description: video.description,
           exclusive: video.exclusive,
@@ -232,12 +244,10 @@ export async function uploadVideo(user, file, video, onProgress, onDone) {
           userId: user.id,
         });
 
-        await setDoc(doc(db, `users/${user.id}/videos`, videoRef.id), {
-          id: videoRef.id,
-          videoCollectionPath: videoRef.path,
+        await setDoc(doc(db, `users/${user.id}/videos`, newVideoDocRef.id), {
+          id: newVideoDocRef.id,
+          videoCollectionPath: newVideoDocRef.path,
         });
-
-        onDone(downloadURL);
       });
     }
   );
