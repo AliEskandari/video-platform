@@ -11,7 +11,7 @@ export default function VideoCard({ video, showUserName = true }) {
     <Card className="border-0">
       <Link className="card-img" to={ROUTES.VIDEO.replace(":id", video?.docId)}>
         {video?.thumbnail ? (
-          <Card.Img variant="top" src="https://via.placeholder.com//160x100" />
+          <Card.Img variant="top" src={video.thumbnail} />
         ) : (
           <Skeleton
             className="img card-img-top img-fluid"

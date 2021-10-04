@@ -45,13 +45,11 @@ export default function Profile() {
               </Button>
             </LinkContainer>
           </div>
-          <p>{user?.bio}</p>
-
           <p>
+            {user?.bio}
+            <br />
             <span>Specialty:</span> {user?.specialty}
-          </p>
-
-          <p>
+            <br />
             <span>Country:</span> {user?.country}
           </p>
 

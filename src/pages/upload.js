@@ -63,7 +63,7 @@ export default function Upload() {
   return (
     <Container>
       <Row className="justify-content-center">
-        <Col xs={12} md={8} xl={6} className="border-3">
+        <Col xs={12} md={8} xl={5} className="border-3">
           <Form>
             <div className="mb-3 d-flex justify-content-between align-items-center">
               <h2 className="mb-0">New Video</h2>
@@ -73,7 +73,7 @@ export default function Upload() {
               <Form.Control
                 type="file"
                 ref={fileInput}
-                className="w-50"
+                className=""
                 accept="video/mp4, video/mpeg, video/quicktime"
               />
               <Form.Text id="" muted></Form.Text>
@@ -110,8 +110,8 @@ export default function Upload() {
               </Form.Text>
             </Form.Group>
             <Button
-              variant="outline-primary"
-              className="float-start mb-3"
+              variant="primary"
+              className="float-end mb-3"
               type="submit"
               onClick={handlePublish}
             >
