@@ -128,7 +128,7 @@ export async function deleteUser(authUser) {
 
   // firestore: delete video docs linked to user
   try {
-    await deleteFirestoreUserVideos(authUser.uid);
+    await deleteUserVideosDocs(authUser.uid);
     console.log("firestore: delete video docs successful");
   } catch (error) {
     console.log(error);
@@ -169,13 +169,13 @@ export async function updateUser(userId, userData) {
 // Videos
 // ===========================================
 
-export async function uploadVideo(userDoc, file, video, onProgress, onDone) {
+export async function uploadVideo(user, file, video, onProgress, onDone) {
   const metadata = {
     contentType: file.type,
   };
 
   // upload file
-  const storageRef = ref(storage, `videos/${userDoc.id}/${file.name}`);
+  const storageRef = ref(storage, `videos/${user.id}/${file.name}`);
   const uploadTask = uploadBytesResumable(storageRef, file, metadata);
 
   // listen for state changes, errors, and completion of the upload
@@ -228,12 +228,13 @@ export async function uploadVideo(userDoc, file, video, onProgress, onDone) {
           dateCreated: Date.now(),
           url: downloadURL,
           views: 0,
-          userName: userDoc.name,
-          userId: userDoc.id,
+          userName: user.name,
+          userId: user.id,
         });
 
-        await setDoc(doc(db, `users/${userDoc.docId}/videos`, videoRef.id), {
+        await setDoc(doc(db, `users/${user.id}/videos`, videoRef.id), {
           id: videoRef.id,
+          videoCollectionPath: videoRef.path,
         });
 
         onDone(downloadURL);
@@ -312,14 +313,25 @@ async function deleteCollection(userId, path) {
   }
 }
 
-async function deleteFirestoreUserVideos(userId) {
+/**
+ * Deletes a user's video docs from firestore. Both from their videos subcollection
+ * (users/:userId/videos) and from the videos collection.
+ *
+ * @param {int} userId
+ * @returns
+ */
+async function deleteUserVideosDocs(userId) {
   try {
-    const q = query(collection(db, "videos"), where("userId", "==", userId));
-    const querySnapshot = await getDocs(q);
+    const snapshot = await getDocs(collection(db, `users/${userId}/videos`));
+    const videoIds = snapshot.docs.map((videoDoc) => videoDoc.id);
 
-    const promises = querySnapshot.docs.map((doc) => {
-      return deleteDoc(doc.ref);
+    // delete video doc in video collection and in users/videos subcollection
+    const promises = videoIds.map((videoId) => {
+      return deleteDoc(doc(db, `videos/${videoId}`)).then(() =>
+        deleteDoc(doc(db, `users/${userId}/videos/${videoId}`))
+      );
     });
+
     return Promise.all(promises);
   } catch (error) {
     console.log("Delete failed, see console,");
