@@ -48,7 +48,6 @@ function App() {
     handleClose = () => setShow(false),
     handleProceed = () => setShow(false),
   } = {}) => {
-    debugger;
     setText(text);
     setShow(true);
     setHandleClose(() => handleClose);
