@@ -10,8 +10,8 @@ export default function VideoCard({ video, showUserName = true }) {
   return (
     <Card className="border-0">
       <Link className="card-img" to={ROUTES.VIDEO.replace(":id", video?.docId)}>
-        {video?.thumbnail ? (
-          <Card.Img variant="top" src={video.thumbnail} />
+        {video?.thumbUrl ? (
+          <Card.Img variant="top" src={video.thumbUrl} />
         ) : (
           <Skeleton
             className="img card-img-top img-fluid"
@@ -20,6 +20,14 @@ export default function VideoCard({ video, showUserName = true }) {
           />
         )}
       </Link>
+      <div className="card-img-overlay position-absolute w-100 h-100 pe-none">
+        <Link
+          to={ROUTES.EDIT_VIDEO.replace(":id", video?.docId)}
+          className="edit-button float-end pe-auto d-none text-white py-1 px-2 bg-black bg-opacity-50 rounded-2"
+        >
+          <i className="bi bi-pencil-fill"></i>
+        </Link>
+      </div>
       <Card.Body className="px-0">
         <Card.Title className="text-truncate fs-6">
           <Link
