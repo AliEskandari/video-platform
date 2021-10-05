@@ -73,7 +73,8 @@ exports.generateThumbnail = functions
     const url = file[0].metadata.mediaLink;
 
     await admin.firestore().collection("videos").doc(videoDocId).update({
-      thumbnail: url,
+      thumbUrl: url,
+      thumbFileName: thumbFileName,
     });
 
     // Once the thumbnail has been uploaded delete the local file to free up disk space.
