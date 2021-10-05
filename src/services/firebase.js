@@ -226,7 +226,7 @@ export async function uploadVideo(user, file, video, onProgress, onDone) {
         console.log("File available at", downloadURL);
         const unsub = onSnapshot(newVideoDocRef, (doc) => {
           console.log("Current data: ", doc.data());
-          if (doc.data().thumbnail) {
+          if (doc.data().thumbUrl) {
             console.log("File thumbnail and docs done");
             unsub();
             onDone(downloadURL);
@@ -242,6 +242,7 @@ export async function uploadVideo(user, file, video, onProgress, onDone) {
           views: 0,
           userName: user.name,
           userId: user.id,
+          fileName: file.name,
         });
 
         await setDoc(doc(db, `users/${user.id}/videos`, newVideoDocRef.id), {
@@ -269,7 +270,7 @@ export async function getVideoById(videoId) {
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
-    return docSnap.data();
+    return { ...docSnap.data(), id: videoId };
   } else {
     // doc.data() will be undefined in this case
     return null;
@@ -283,6 +284,22 @@ export async function getAllVideos() {
     docId: video.id,
   }));
   return videos;
+}
+
+export async function deleteUserVideo(video) {
+  debugger;
+  const { userId, id, fileName, thumbFileName } = video;
+  const userVideoDocRef = doc(db, `users/${userId}/videos`, id);
+  const videoDocRef = doc(db, "videos", id);
+  const videoStorageRef = ref(storage, `videos/${userId}/${fileName}`);
+  const videoThumbStorageRef = ref(
+    storage,
+    `videos/${userId}/${thumbFileName}`
+  );
+  await deleteDoc(userVideoDocRef);
+  await deleteDoc(videoDocRef);
+  await deleteObject(videoStorageRef);
+  await deleteObject(videoThumbStorageRef);
 }
 
 // ===========================================
