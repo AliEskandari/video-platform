@@ -44,7 +44,7 @@ export default function footer() {
           </ul>
         </Col>
         <Col md={4} className="d-flex justify-content-end align-items-center">
-          <span className="text-muted">© 2021 DomumGym, Inc</span>
+          <span className="text-muted">© 2021 DomumGym, LLC</span>
         </Col>
       </Container>
     </footer>
