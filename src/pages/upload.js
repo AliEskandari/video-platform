@@ -104,8 +104,8 @@ export default function Upload() {
                 type="switch"
                 id=""
                 label="Exclusive"
-                value={exclusive}
-                onChange={({ target }) => setExclusive(target.value)}
+                checked={exclusive}
+                onChange={({ target }) => setExclusive(target.checked)}
               />
               <Form.Text id="" muted>
                 Activate to make video visible only to your subscribers.

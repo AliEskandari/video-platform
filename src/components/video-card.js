@@ -15,13 +15,22 @@ export default function VideoCard({
     <Card className="border-0">
       <Link className="card-img" to={ROUTES.VIDEO.replace(":id", video?.docId)}>
         <div className="ratio ratio-16x9">
-          {video?.thumbUrl ? (
+          {video?.exclusive && (
+            <div className="bg-light">
+              <div className="text-primary fs-1 w-100 h-100 position-absolute d-flex align-items-center justify-content-center">
+                <i class="bi bi-lock"></i>
+              </div>
+            </div>
+          )}
+
+          {!video?.exclusive && video?.thumbUrl && (
             <Card.Img
               variant="top"
               style={{ objectFit: "cover" }}
               src={video.thumbUrl}
             />
-          ) : (
+          )}
+          {!video?.exclusive && !video?.thumbUrl && (
             <Skeleton
               className="img card-img-top lh-base"
               height="100%"

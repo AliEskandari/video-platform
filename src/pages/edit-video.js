@@ -70,8 +70,8 @@ export default function EditVideo() {
             <Form.Group className="pb-3">
               <Form.Check
                 type="switch"
-                value={exclusive}
-                onChange={({ target }) => setExclusive(target.value)}
+                checked={exclusive}
+                onChange={({ target }) => setExclusive(target.checked)}
                 id=""
                 label="Exclusive"
               />
@@ -79,22 +79,34 @@ export default function EditVideo() {
                 Activate to make video visible only to your subscribers.
               </Form.Text>
             </Form.Group>
-            <Button
-              variant="primary"
-              className="float-end"
-              size=""
-              type="submit"
-            >
-              Save
-            </Button>
-            <Button
-              size=""
-              className="float-end mx-2"
-              variant="outline-primary"
-              onClick={handleDeleteVideo}
-            >
-              Delete
-            </Button>
+            <Form.Group>
+              <Button
+                variant="primary"
+                className="float-end"
+                size=""
+                type="submit"
+              >
+                Save
+              </Button>
+              <Button
+                variant="outline-primary"
+                className="float-end mx-2"
+                size=""
+                type="cancel"
+              >
+                Cancel
+              </Button>
+            </Form.Group>
+            <Form.Group>
+              <Button
+                size=""
+                className="float-start"
+                variant="outline-danger"
+                onClick={handleDeleteVideo}
+              >
+                Delete
+              </Button>
+            </Form.Group>
           </Form>
         </Col>
       </Row>
