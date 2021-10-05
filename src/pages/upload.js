@@ -64,13 +64,14 @@ export default function Upload() {
     <Container>
       <Row className="justify-content-center">
         <Col xs={12} md={8} xl={5} className="border-3">
-          <Form>
+          <Form onSubmit={handlePublish}>
             <div className="mb-3 d-flex justify-content-between align-items-center">
               <h2 className="mb-0">New Video</h2>
             </div>
             <Form.Group controlId="formFile" className="mb-3">
               <Form.Label>File</Form.Label>
               <Form.Control
+                required
                 type="file"
                 ref={fileInput}
                 className=""
@@ -83,6 +84,7 @@ export default function Upload() {
               <Form.Control
                 type="text"
                 placeholder="Enter video title"
+                required
                 value={title}
                 onChange={({ target }) => setTitle(target.value)}
               />
@@ -109,12 +111,7 @@ export default function Upload() {
                 Activate to make video visible only to your subscribers.
               </Form.Text>
             </Form.Group>
-            <Button
-              variant="primary"
-              className="float-end mb-3"
-              type="submit"
-              onClick={handlePublish}
-            >
+            <Button variant="primary" className="float-end mb-3" type="submit">
               Publish
             </Button>
           </Form>
