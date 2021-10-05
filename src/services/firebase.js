@@ -302,6 +302,11 @@ export async function deleteUserVideo(video) {
   await deleteObject(videoThumbStorageRef);
 }
 
+export async function updateVideo(videoId, videoData) {
+  const videoRef = doc(db, "videos", videoId);
+  await updateDoc(videoRef, videoData);
+}
+
 // ===========================================
 // Storage
 // ===========================================
