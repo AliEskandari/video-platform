@@ -41,10 +41,24 @@ function App() {
 
   const [show, setShow] = useState(false);
   const [text, setText] = useState(null);
-  const handleClose = () => setShow(false);
-  const handleShow = (string) => {
-    setText(string);
+  const [handleClose, setHandleClose] = useState();
+  const [handleProceed, setHandleProceed] = useState();
+  const showModal = ({
+    text,
+    handleClose = () => setShow(false),
+    handleProceed = () => setShow(false),
+  } = {}) => {
+    debugger;
+    setText(text);
     setShow(true);
+    setHandleClose(() => handleClose);
+    setHandleProceed(() => {
+      const handleProceedAndHideModal = async () => {
+        await handleProceed();
+        setShow(false);
+      };
+      return handleProceedAndHideModal;
+    });
   };
 
   const [alertShow, setAlertShow] = useState(false);
@@ -63,14 +77,19 @@ function App() {
     <UserContext.Provider value={{ user }}>
       <Router>
         <ScrollToTop />
-        <Modal show={show} handleClose={handleClose} text={text} />
+        <Modal
+          show={show}
+          handleClose={handleClose}
+          handleProceed={handleProceed}
+          text={text}
+        />
         <Alert
           show={alertShow}
           text={alertText}
           dismissible={alertDismissible}
           onClose={closeAlert}
         />
-        <ModalContext.Provider value={{ handleShow }}>
+        <ModalContext.Provider value={{ showModal }}>
           <AlertContext.Provider value={{ setAlert }}>
             <Suspense fallback={<p>Loading...</p>}>
               <Switch>

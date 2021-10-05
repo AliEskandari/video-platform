@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal as BModal, Button, Row, Container } from "react-bootstrap";
 
-export default function Modal({ show, handleClose, text }) {
+export default function Modal({ show, handleClose, handleProceed, text }) {
   return (
     <BModal show={show} onHide={handleClose} centered size="sm">
       <Container className="">
@@ -16,7 +16,7 @@ export default function Modal({ show, handleClose, text }) {
             >
               NO
             </Button>
-            <Button variant="primary" size="" onClick={handleClose}>
+            <Button variant="primary" size="" onClick={handleProceed}>
               YES
             </Button>
           </div>
