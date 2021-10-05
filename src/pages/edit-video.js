@@ -3,7 +3,7 @@ import { Container, Form, Row, Col, Button } from "react-bootstrap";
 import { useParams, useHistory } from "react-router-dom";
 import ModalContext from "../context/modal";
 import useVideo from "../hooks/use-video";
-import { deleteUserVideo } from "../services/firebase";
+import { deleteUserVideo, updateVideo } from "../services/firebase";
 import * as ROUTES from "../constants/routes";
 
 export default function EditVideo() {
@@ -33,11 +33,16 @@ export default function EditVideo() {
     showModal({ text: "Are you sure?", handleProceed });
   };
 
+  const handleUpdateVideo = async (event) => {
+    event.preventDefault();
+    await updateVideo(video.id, { title, description, exclusive });
+    history.push(ROUTES.PROFILE);
+  };
   return (
     <Container>
       <Row className="justify-content-center">
         <Col xs={12} md={8} xl={5} className="border-3">
-          <Form>
+          <Form onSubmit={handleUpdateVideo}>
             <div className="mb-3 d-flex justify-content-between align-items-center">
               <h2 className="mb-0">Edit video</h2>
             </div>
@@ -47,6 +52,7 @@ export default function EditVideo() {
               <Form.Control
                 type="text"
                 value={title}
+                required
                 placeholder="Enter video title"
                 onChange={({ target }) => setTitle(target.value)}
               />
