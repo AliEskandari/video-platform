@@ -311,7 +311,7 @@ export async function updateVideo(videoId, videoData) {
 // Followers
 // ===========================================
 
-export async function subscribeToUser({ userId, channelUserId } = {}) {
+export async function subscribeToUser(userId, channelUserId) {
   // create doc under subscriptions/userId
   await setDoc(doc(db, `subscriptions/${userId}`, channelUserId), {
     id: channelUserId,
@@ -323,6 +323,10 @@ export async function getSubscriptions(userId) {
   const snapshot = await getDocs(collection(db, `subscriptions/${userId}`));
   const subscriptionsUserIds = snapshot.docs.map((channelDoc) => channelDoc.id);
   return subscriptionsUserIds;
+}
+
+export async function unsubcribeFromUser(userId, channelUserId) {
+  await deleteDoc(doc(db, `subscriptions/${userId}`, channelUserId));
 }
 
 // ===========================================
