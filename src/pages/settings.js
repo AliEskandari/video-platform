@@ -54,7 +54,7 @@ export default function Settings() {
   return (
     <Container>
       <Row className="justify-content-center">
-        <Col xs={12} md={8} xl={6} className="border-3">
+        <Col xs={12} md={8} xl={5} className="border-3">
           <Form>
             <div className="mb-3 d-flex justify-content-between align-items-center">
               <h2 className="mb-0">Profile</h2>
@@ -110,7 +110,7 @@ export default function Settings() {
               />
             </Form.Group>
             <Button
-              variant="outline-primary"
+              variant="primary"
               type="submit"
               size=""
               onClick={handleUpdateSettings}
@@ -133,7 +133,7 @@ export default function Settings() {
                 <Form.Control type="password" placeholder="Password" />
               </Form.Group>
             </Row>
-            <Button variant="outline-primary" type="submit" size="">
+            <Button variant="primary" type="submit" size="">
               Save
             </Button>
           </Form>
