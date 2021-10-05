@@ -18,7 +18,7 @@ export default function VideoCard({
           {video?.exclusive && (
             <div className="bg-light">
               <div className="text-primary fs-1 w-100 h-100 position-absolute d-flex align-items-center justify-content-center">
-                <i class="bi bi-lock"></i>
+                <i className="bi bi-lock"></i>
               </div>
             </div>
           )}
