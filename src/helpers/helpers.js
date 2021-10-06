@@ -1,5 +1,7 @@
-export function userCanWatchVideo(isSubscribed, video) {
+export function userCanWatchVideo(authUser, isSubscribed, video) {
   if (isSubscribed) {
+    return true;
+  } else if (authUser?.uid == video?.userId) {
     return true;
   } else if (!video?.exclusive) {
     return true;

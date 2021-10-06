@@ -26,7 +26,11 @@ export default function Video() {
     subscriptions,
     video?.userId
   );
-  const { userCanWatchVideo } = useUserCanWatchVideo(isSubscribed, video);
+  const { userCanWatchVideo } = useUserCanWatchVideo(
+    loggedInUser,
+    isSubscribed,
+    video
+  );
   const player = useRef(null);
 
   useEffect(() => {
