@@ -1,17 +1,26 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Button, Col, Container, Image, Row } from "react-bootstrap";
 import Skeleton from "react-loading-skeleton";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import VideoCard from "../components/video-card";
-import ModalContext from "../context/modal";
 import useUser from "../hooks/use-user";
 import useVideos from "../hooks/use-videos";
+import useSubscriptions from "../hooks/use-subscriptions";
+import UserContext from "../context/user";
+import SubscribeButton from "../components/subscribe-button";
 
 export default function Channel() {
   const { id: userId } = useParams();
+  const { user: loggedInUser } = useContext(UserContext);
   const { user } = useUser(userId);
+  const { subscriptions } = useSubscriptions(loggedInUser.uid);
+  const [isSubscribed, setIsSubscribed] = useState();
+
+  useEffect(() => {
+    setIsSubscribed(subscriptions?.includes(userId));
+  }, [subscriptions]);
+
   const { videos } = useVideos({ user });
-  const { handleShow } = useContext(ModalContext);
 
   return (
     <Container>
@@ -28,14 +37,11 @@ export default function Channel() {
         <Col lg={8}>
           <div className="d-flex justify-content-between align-items-center mb-4">
             <span className="fs-1">{user?.name || <Skeleton />}</span>
-            <Button
-              variant="outline-primary"
-              className=""
-              size="sm"
-              onClick={() => handleShow("Subscribe for $4.99?")}
-            >
-              Subscribe
-            </Button>
+            <SubscribeButton
+              isSubscribed={isSubscribed}
+              setIsSubscribed={setIsSubscribed}
+              channelUserId={userId}
+            />
           </div>
           <p>{user?.bio || <Skeleton />}</p>
 
@@ -55,13 +61,17 @@ export default function Channel() {
         <Col>
           <Row xs={1} md={3} lg={4} xl={5} className="g-2">
             {videos?.map((video, idx) => (
-              <Col>
-                <VideoCard video={video} showUserName={false} />
+              <Col key={idx}>
+                <VideoCard
+                  isSubscribed={isSubscribed}
+                  video={video}
+                  showUserName={false}
+                />
               </Col>
             ))}
             {!videos &&
               Array.from({ length: 20 }).map((_, idx) => (
-                <Col>
+                <Col key={idx}>
                   <VideoCard showUserName={false} />
                 </Col>
               ))}
