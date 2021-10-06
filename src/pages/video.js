@@ -63,8 +63,8 @@ export default function Video() {
             </div>
             {!userCanWatchVideo && (
               <div className="ratio ratio-16x9">
-                <div className="text-primary bg-light fs-1 w-100 h-100 position-absolute d-flex align-items-center justify-content-center">
-                  <i className="bi bi-lock"></i>
+                <div className="text-primary bg-light w-100 h-100 position-absolute d-flex align-items-center justify-content-center">
+                  <i class="fas fa-award fa-4x"></i>
                 </div>
               </div>
             )}
