@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getVideosByUserId, getAllVideos } from "../services/firebase";
+import { getVideosByUserId, getNonExclusiveVideos } from "../services/firebase";
 
 /**
  * Initializes videos to undefined until data is fetched
@@ -19,8 +19,8 @@ export default function useVideos({ user, all } = {}) {
       setVideos(results);
     }
 
-    async function fetchAllVideos() {
-      const results = await getAllVideos();
+    async function fetchNonExclusiveVideos() {
+      const results = await getNonExclusiveVideos();
       // sort array newest first
       results.sort((a, b) => b.dateCreated - a.dateCreated);
       setVideos(results);
@@ -30,7 +30,7 @@ export default function useVideos({ user, all } = {}) {
       fetchUserVideos();
       setReload(() => fetchUserVideos);
     } else if (all) {
-      fetchAllVideos();
+      fetchNonExclusiveVideos();
     }
   }, [user?.id]);
 

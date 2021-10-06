@@ -286,8 +286,17 @@ export async function getAllVideos() {
   return videos;
 }
 
+export async function getNonExclusiveVideos() {
+  const q = query(collection(db, "videos"), where("exclusive", "==", false));
+  const snapshot = await getDocs(q);
+  const videos = snapshot.docs.map((video) => ({
+    ...video.data(),
+    docId: video.id,
+  }));
+  return videos;
+}
+
 export async function deleteUserVideo(video) {
-  debugger;
   const { userId, id, fileName, thumbFileName } = video;
   const userVideoDocRef = doc(db, `users/${userId}/videos`, id);
   const videoDocRef = doc(db, "videos", id);
