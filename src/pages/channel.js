@@ -9,6 +9,7 @@ import useSubscriptions from "../hooks/use-subscriptions";
 import UserContext from "../context/user";
 import SubscribeButton from "../components/subscribe-button";
 import useIsSubscribed from "../hooks/use-is-subscribed";
+import { userCanWatchVideo } from "../helpers/helpers";
 
 export default function Channel() {
   const { id: userId } = useParams();
@@ -63,7 +64,11 @@ export default function Channel() {
             {videos?.map((video, idx) => (
               <Col key={idx}>
                 <VideoCard
-                  isSubscribed={isSubscribed}
+                  userCanWatchVideo={userCanWatchVideo(
+                    loggedInUser,
+                    isSubscribed,
+                    video
+                  )}
                   video={video}
                   showUserName={false}
                 />

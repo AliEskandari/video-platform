@@ -66,7 +66,7 @@ export default function Profile() {
                   video={video}
                   showUserName={false}
                   showEditButton={true}
-                  isSubscribed={true}
+                  userCanWatchVideo={true}
                 />
               </Col>
             ))}

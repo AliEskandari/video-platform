@@ -14,6 +14,7 @@ import UserContext from "../context/user";
 import useVideos from "../hooks/use-videos";
 import useIsSubscribed from "../hooks/use-is-subscribed";
 import useUserCanWatchVideo from "../hooks/use-user-can-watch-video";
+import { userCanWatchVideo as userCanWatchVideoHelper } from "../helpers/helpers";
 
 export default function Video() {
   const { user: loggedInUser } = useContext(UserContext);
@@ -112,7 +113,14 @@ export default function Video() {
           <Row xs={1} className="g-2">
             {relatedVideos?.map((video, idx) => (
               <Col key={idx}>
-                <VideoSearchResult video={video} />
+                <VideoSearchResult
+                  userCanWatchVideo={userCanWatchVideoHelper(
+                    loggedInUser,
+                    isSubscribed,
+                    video
+                  )}
+                  video={video}
+                />
               </Col>
             ))}
             {!relatedVideos &&

@@ -7,10 +7,10 @@ import { formatDistanceToNow } from "date-fns";
 import "./video-card.css";
 
 export default function VideoCard({
+  userCanWatchVideo,
   video,
   showUserName = true,
   showEditButton = false,
-  isSubscribed,
 }) {
   let image = null;
   if (!video?.thumbUrl) {
@@ -21,7 +21,7 @@ export default function VideoCard({
         width="100%"
       />
     );
-  } else if (!video?.exclusive || isSubscribed) {
+  } else if (userCanWatchVideo) {
     image = (
       <Card.Img
         variant="top"

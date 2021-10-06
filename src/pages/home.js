@@ -9,7 +9,7 @@ export default function Home() {
       <Row xs={1} sm={2} md={2} lg={3} xl={5} className="g-2">
         {videos?.map((video, idx) => (
           <Col key={idx}>
-            <VideoCard video={video} />
+            <VideoCard userCanWatchVideo={true} video={video} />
           </Col>
         ))}
         {!videos &&

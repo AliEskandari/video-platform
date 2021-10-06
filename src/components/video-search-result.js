@@ -9,13 +9,12 @@ import "./video-card.css";
 export default function VideoSearchResult({
   video,
   showUserName = true,
-  showEditButton = false,
-  isSubscribed,
+  userCanWatchVideo,
 }) {
   let image = null;
   if (!video?.thumbUrl) {
     image = <Skeleton className="img lh-base" height="100%" width="100%" />;
-  } else if (!video?.exclusive || isSubscribed) {
+  } else if (userCanWatchVideo) {
     image = (
       <Card.Img
         variant="top"
