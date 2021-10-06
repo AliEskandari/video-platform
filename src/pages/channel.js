@@ -8,17 +8,17 @@ import useVideos from "../hooks/use-videos";
 import useSubscriptions from "../hooks/use-subscriptions";
 import UserContext from "../context/user";
 import SubscribeButton from "../components/subscribe-button";
+import useIsSubscribed from "../hooks/use-is-subscribed";
 
 export default function Channel() {
   const { id: userId } = useParams();
   const { user: loggedInUser } = useContext(UserContext);
   const { user } = useUser(userId);
-  const { subscriptions } = useSubscriptions(loggedInUser.uid);
-  const [isSubscribed, setIsSubscribed] = useState();
-
-  useEffect(() => {
-    setIsSubscribed(subscriptions?.includes(userId));
-  }, [subscriptions]);
+  const { subscriptions } = useSubscriptions(loggedInUser?.uid);
+  const { isSubscribed, setIsSubscribed } = useIsSubscribed(
+    subscriptions,
+    userId
+  );
 
   const { videos } = useVideos({ user });
 

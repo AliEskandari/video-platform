@@ -12,6 +12,8 @@ import SubscribeButton from "../components/subscribe-button";
 import useSubscriptions from "../hooks/use-subscriptions";
 import UserContext from "../context/user";
 import useVideos from "../hooks/use-videos";
+import useIsSubscribed from "../hooks/use-is-subscribed";
+import useUserCanWatchVideo from "../hooks/use-user-can-watch-video";
 
 export default function Video() {
   const { user: loggedInUser } = useContext(UserContext);
@@ -19,16 +21,16 @@ export default function Video() {
   const { video } = useVideo(videoId);
   const { user } = useUser(video?.userId);
   const { videos: relatedVideos } = useVideos({ user: user });
-  const { subscriptions } = useSubscriptions(loggedInUser.uid);
-  const [isSubscribed, setIsSubscribed] = useState();
+  const { subscriptions } = useSubscriptions(loggedInUser?.uid);
+  const { isSubscribed, setIsSubscribed } = useIsSubscribed(
+    subscriptions,
+    video?.userId
+  );
+  const { userCanWatchVideo } = useUserCanWatchVideo(isSubscribed, video);
   const player = useRef(null);
 
   useEffect(() => {
-    setIsSubscribed(subscriptions?.includes(video?.userId));
-  }, [subscriptions, video]);
-
-  useEffect(() => {
-    if (video) {
+    if (video && userCanWatchVideo) {
       player.current.source = {
         type: "video",
         title: video.title,
@@ -39,7 +41,7 @@ export default function Video() {
         ],
       };
     }
-  }, [video]);
+  }, [video, userCanWatchVideo]);
 
   useEffect(() => {
     player.current = new Plyr("#player", { ratio: "16:9" });
@@ -48,12 +50,22 @@ export default function Video() {
   return (
     <Container>
       <Row>
-        {/* Video */}
         <Col sm={12} md={12} lg={8}>
+          {/* Video */}
           <div className="mb-4">
-            <video id="player" className="w-100" playsInline controls></video>
+            <div className={!userCanWatchVideo ? "d-none" : undefined}>
+              <video id="player" className="w-100" playsInline controls></video>
+            </div>
+            {!userCanWatchVideo && (
+              <div className="ratio ratio-16x9">
+                <div className="text-primary bg-light fs-1 w-100 h-100 position-absolute d-flex align-items-center justify-content-center">
+                  <i className="bi bi-lock"></i>
+                </div>
+              </div>
+            )}
           </div>
 
+          {/* Title */}
           <h4>{video?.title || <Skeleton width={800} />}</h4>
           {video ? (
             <p>
@@ -67,6 +79,8 @@ export default function Video() {
           )}
 
           <hr />
+
+          {/* Channel */}
           <div className="d-flex justify-content-between align-items-center mb-4">
             <div>
               <Link

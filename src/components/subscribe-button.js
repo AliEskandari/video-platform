@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import { Button } from "react-bootstrap";
 import ModalContext from "../context/modal";
 import UserContext from "../context/user";
-import useSubscriptions from "../hooks/use-subscriptions";
 import { subscribeToUser, unsubcribeFromUser } from "../services/firebase";
 
 export default function SubscribeButton({
