@@ -5,16 +5,24 @@ import Skeleton from "react-loading-skeleton";
 import { Link, useParams } from "react-router-dom";
 import VideoCard from "../components/video-card";
 import * as ROUTES from "../constants/routes";
-import ModalContext from "../context/modal";
 import { format } from "date-fns";
 import useVideo from "../hooks/use-video";
 import useUser from "../hooks/use-user";
+import SubscribeButton from "../components/subscribe-button";
+import useSubscriptions from "../hooks/use-subscriptions";
+import UserContext from "../context/user";
 
 export default function Video() {
+  const { user: loggedInUser } = useContext(UserContext);
   const { id: videoId } = useParams();
   const { video } = useVideo(videoId);
   const { user } = useUser(video?.userId);
-  const { handleShow } = useContext(ModalContext);
+  const { subscriptions } = useSubscriptions(loggedInUser.uid);
+  const [isSubscribed, setIsSubscribed] = useState();
+
+  useEffect(() => {
+    setIsSubscribed(subscriptions?.includes(video?.userId));
+  }, [subscriptions, video]);
 
   useEffect(() => {
     if (video) {
@@ -58,14 +66,11 @@ export default function Video() {
                 {user ? `${user.subscriberCount} subscribers` : <Skeleton />}
               </small>
             </div>
-            <Button
-              variant="outline-primary"
-              className=""
-              size="sm"
-              onClick={() => handleShow("Subscribe for 4.99?")}
-            >
-              Subscribe
-            </Button>
+            <SubscribeButton
+              isSubscribed={isSubscribed}
+              setIsSubscribed={setIsSubscribed}
+              channelUserId={video?.userId}
+            />
           </div>
           <p>{video?.description || " " || <Skeleton height={100} />}</p>
         </Col>

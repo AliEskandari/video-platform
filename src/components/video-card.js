@@ -57,7 +57,7 @@ export default function VideoCard({
         <Card.Title className="text-truncate fs-6">
           <Link
             to={ROUTES.VIDEO.replace(":id", video?.docId)}
-            className="text-reset text-decoration-none"
+            className="disabled text-reset text-decoration-none"
           >
             {video?.title || <Skeleton width="80%" />}
           </Link>
