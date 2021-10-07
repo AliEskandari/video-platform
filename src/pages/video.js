@@ -64,48 +64,76 @@ export default function Video() {
             {!userCanWatchVideo && (
               <div className="ratio ratio-16x9">
                 <div className="text-primary bg-light w-100 h-100 position-absolute d-flex align-items-center justify-content-center">
-                  <i class="fas fa-award fa-4x"></i>
+                  {video?.exclusive && <i class="fas fa-award fa-4x"></i>}
                 </div>
               </div>
             )}
           </div>
 
-          {/* Title */}
-          <h4>{video?.title || <Skeleton width={800} />}</h4>
-          {video ? (
-            <p>
-              {video.views.toString()} views •{" "}
-              {format(video.dateCreated, "MMM dd, yyyy")}
-            </p>
+          {!video ? (
+            <>
+              <h4>
+                <Skeleton width={800} />
+              </h4>
+              <p>
+                <Skeleton width={400} />
+              </p>
+              {/* Channel Line */}
+              <div className="mb-4">
+                <h5 className="mb-0">
+                  <Skeleton />
+                </h5>
+                <small>
+                  <Skeleton />
+                </small>
+              </div>
+              <hr />
+              {/* Description  */}
+              <p>
+                <Skeleton height={100} />
+              </p>
+            </>
           ) : (
-            <p>
-              <Skeleton width={400} />
-            </p>
+            <>
+              {/* Title */}
+              <h4>
+                {video?.exclusive && (
+                  <i class="fas fa-award pe-2 text-primary"></i>
+                )}
+                {video.title}
+              </h4>
+              {/* Views, Date */}
+              <p>
+                {video.views.toString()} views •{" "}
+                {format(video.dateCreated, "MMM dd, yyyy")}
+              </p>
+              {/* Channel Line */}
+              <div className="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                  <Link
+                    to={ROUTES.CHANNEL.replace(":id", video?.userId)}
+                    className="text-reset text-decoration-none"
+                  >
+                    <h5 className="mb-0">{user?.name}</h5>
+                  </Link>
+                  <small>{`${user?.subscriberCount} subscribers`}</small>
+                </div>
+
+                <SubscribeButton
+                  isSubscribed={isSubscribed}
+                  setIsSubscribed={setIsSubscribed}
+                  channelUserId={video.userId}
+                />
+              </div>
+
+              <hr />
+
+              {/* Description  */}
+              <p>{video.description || " "}</p>
+            </>
           )}
-
-          <hr />
-
-          {/* Channel */}
-          <div className="d-flex justify-content-between align-items-center mb-4">
-            <div>
-              <Link
-                to={ROUTES.CHANNEL.replace(":id", video?.userId)}
-                className="text-reset text-decoration-none"
-              >
-                <h5 className="mb-0">{user?.name || <Skeleton />}</h5>
-              </Link>
-              <small>
-                {user ? `${user.subscriberCount} subscribers` : <Skeleton />}
-              </small>
-            </div>
-            <SubscribeButton
-              isSubscribed={isSubscribed}
-              setIsSubscribed={setIsSubscribed}
-              channelUserId={video?.userId}
-            />
-          </div>
-          <p>{video?.description || " " || <Skeleton height={100} />}</p>
         </Col>
+
         {/* Related Videos */}
         <Col>
           <hr className="d-lg-none d-xl-none" />
