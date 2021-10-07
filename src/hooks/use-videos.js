@@ -1,5 +1,9 @@
 import { useState, useEffect } from "react";
-import { getVideosByUserId, getNonExclusiveVideos } from "../services/firebase";
+import {
+  getVideosByUserId,
+  getNonExclusiveVideos,
+  searchVideos,
+} from "../services/firebase";
 
 /**
  * Initializes videos to undefined until data is fetched
@@ -7,22 +11,26 @@ import { getVideosByUserId, getNonExclusiveVideos } from "../services/firebase";
  * @param {*} options filter videos by user or all; must choose one
  * @returns
  */
-export default function useVideos({ user, all } = {}) {
+export default function useVideos({ user, all, searchQuery } = {}) {
   const [videos, setVideos] = useState();
   const [reload, setReload] = useState(null);
 
   useEffect(() => {
     async function fetchUserVideos() {
       const results = await getVideosByUserId(user.id);
-      // sort array newest first
-      results.sort((a, b) => b.dateCreated - a.dateCreated);
+      results.sort((a, b) => b.dateCreated - a.dateCreated); // newest first
       setVideos(results);
     }
 
     async function fetchNonExclusiveVideos() {
       const results = await getNonExclusiveVideos();
-      // sort array newest first
-      results.sort((a, b) => b.dateCreated - a.dateCreated);
+      results.sort((a, b) => b.dateCreated - a.dateCreated); // newest first
+      setVideos(results);
+    }
+
+    async function fetchSearchVideos() {
+      const results = await searchVideos(searchQuery);
+      results.sort((a, b) => b.dateCreated - a.dateCreated); // newest first
       setVideos(results);
     }
 
@@ -31,8 +39,10 @@ export default function useVideos({ user, all } = {}) {
       setReload(() => fetchUserVideos);
     } else if (all) {
       fetchNonExclusiveVideos();
+    } else if (searchQuery) {
+      fetchSearchVideos();
     }
-  }, [user?.id]);
+  }, [user?.id, searchQuery]);
 
   return { videos, reload };
 }
