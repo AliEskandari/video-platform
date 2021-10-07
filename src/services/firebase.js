@@ -296,6 +296,30 @@ export async function getNonExclusiveVideos() {
   return videos;
 }
 
+export async function searchVideos(searchQuery) {
+  const qTitle = query(
+    collection(db, "videos"),
+    where("title", "==", searchQuery)
+  );
+  const snapshotTitle = await getDocs(qTitle);
+  const videosTitle = snapshotTitle.docs.map((video) => ({
+    ...video.data(),
+    docId: video.id,
+  }));
+
+  const qUserName = query(
+    collection(db, "videos"),
+    where("userName", "==", searchQuery)
+  );
+  const snapshotUserName = await getDocs(qUserName);
+  const videosUserName = snapshotUserName.docs.map((video) => ({
+    ...video.data(),
+    docId: video.id,
+  }));
+
+  return [...videosTitle, ...videosUserName];
+}
+
 export async function deleteUserVideo(video) {
   const { userId, id, fileName, thumbFileName } = video;
   const userVideoDocRef = doc(db, `users/${userId}/videos`, id);
