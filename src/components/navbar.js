@@ -1,5 +1,5 @@
 import "./navbar.css";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import {
   Button,
   Col,
@@ -13,21 +13,43 @@ import {
 import { LinkContainer } from "react-router-bootstrap";
 import { useHistory } from "react-router-dom";
 import * as ROUTES from "../constants/routes";
+import qs from "qs";
 
 // Fireabse + User
 import { getAuth } from "@firebase/auth";
 import FirebaseContext from "../context/firebase";
 import UserContext from "../context/user";
+import useQuery from "../hooks/use-query";
 
 export default function Navbar() {
   const history = useHistory();
+  const { query: initialQuery } = useQuery();
   const { app } = useContext(FirebaseContext);
   const auth = getAuth(app);
   const { user: loggedInUser } = useContext(UserContext);
+  const [query, setQuery] = useState();
+
+  useEffect(() => {
+    if (initialQuery) {
+      setQuery(initialQuery);
+    }
+  }, [initialQuery]);
 
   const handleSignOut = async () => {
     await auth.signOut();
     history.push(ROUTES.HOME);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearch(event);
+    }
+  };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    let queryString = qs.stringify({ q: query }, { addQueryPrefix: true });
+    history.push(ROUTES.SEARCH.concat(queryString));
   };
 
   return (
@@ -49,19 +71,20 @@ export default function Navbar() {
               placeholder="Search"
               className="mr-2"
               aria-label="Search"
+              onKeyDown={handleKeyDown}
+              value={query}
+              onChange={({ target }) => setQuery(target.value)}
             />
 
-            <LinkContainer to={ROUTES.SEARCH}>
-              <Button variant="primary">
-                <i className="bi bi-search"></i>
-              </Button>
-            </LinkContainer>
+            <Button variant="primary" onClick={handleSearch}>
+              <i className="bi bi-search"></i>
+            </Button>
           </Form>
         </Col>
         {/* Menu Buttons */}
         <Col xs={4}>
           <div className="float-end">
-            {/* LOGGED IN */}
+            {/* NOT OGGED IN */}
             {!loggedInUser && (
               <LinkContainer
                 to={ROUTES.SIGN_IN}
@@ -73,7 +96,7 @@ export default function Navbar() {
               </LinkContainer>
             )}
 
-            {/* NOT LOGGED IN */}
+            {/* LOGGED IN */}
             {loggedInUser && (
               <>
                 <LinkContainer to={ROUTES.UPLOAD}>
