@@ -11,64 +11,75 @@ export default function VideoSearchResult({
   showUserName = true,
   userCanWatchVideo,
 }) {
-  let image = null;
-  if (!video?.thumbUrl) {
-    image = <Skeleton className="img lh-base" height="100%" width="100%" />;
-  } else if (userCanWatchVideo) {
-    image = (
-      <Card.Img
-        variant="top"
-        style={{ objectFit: "cover" }}
-        src={video.thumbUrl}
-      />
-    );
-  } else {
-    image = (
-      <div className="bg-light">
-        <div className="text-primary fs-1 w-100 h-100 position-absolute d-flex align-items-center justify-content-center">
-          <i className="bi bi-lock"></i>
-        </div>
-      </div>
-    );
-  }
+  let videoUrl = ROUTES.VIDEO.replace(":id", video?.docId);
 
   return (
     <Row className="border-0">
-      <Col>
-        <Link className="" to={ROUTES.VIDEO.replace(":id", video?.docId)}>
-          <div className="ratio ratio-16x9">{image}</div>
-        </Link>
-      </Col>
-      <Col>
-        <h6>
-          <Link
-            to={ROUTES.VIDEO.replace(":id", video?.docId)}
-            className="disabled text-reset text-decoration-none"
-          >
-            {video?.title || <Skeleton width="80%" />}
-          </Link>
-        </h6>
+      {!video ? (
+        <>
+          <Col>
+            <div className="ratio ratio-16x9">
+              <Skeleton className="img lh-base" height="100%" width="100%" />
+            </div>
+          </Col>
+          <Col>
+            <h6>
+              <Skeleton width="80%" />
+            </h6>
 
-        {showUserName && (
-          <>
-            <Link
-              to={ROUTES.CHANNEL.replace(":id", video?.userId)}
-              className="text-reset text-decoration-none"
-            >
-              {video?.userName || <Skeleton width="50%" />}
+            {showUserName && (
+              <>
+                <Skeleton width="50%" />
+                <br />
+              </>
+            )}
+            <Skeleton width="90%" />
+          </Col>
+        </>
+      ) : (
+        <>
+          {/* Thumbnail */}
+          <Col>
+            <Link className="" to={videoUrl}>
+              <div className="ratio ratio-16x9">
+                {userCanWatchVideo ? (
+                  <Card.Img
+                    variant="top"
+                    style={{ objectFit: "cover" }}
+                    src={video.thumbUrl}
+                  />
+                ) : (
+                  <div className="bg-light">
+                    <div className="w-100 h-100 position-absolute d-flex align-items-center justify-content-center">
+                      <i className="bi bi-lock text-primary fs-1"></i>
+                    </div>
+                  </div>
+                )}
+              </div>
             </Link>
-            <br />
-          </>
-        )}
-
-        {video ? (
-          <>
+          </Col>
+          {/* Info */}
+          <Col>
+            <h6>
+              <Link to={videoUrl} className="text-reset text-decoration-none">
+                {video?.exclusive && (
+                  <i class="bi bi-lock pe-1 text-primary"></i>
+                )}
+                {video.title}
+              </Link>
+            </h6>
+            {showUserName && (
+              <>
+                <Link to={videoUrl} className="text-reset text-decoration-none">
+                  {video.userName}
+                </Link>
+                <br />
+              </>
+            )}
             {video.views} views • {formatDistanceToNow(video.dateCreated)} ago
-          </>
-        ) : (
-          <Skeleton width="90%" />
-        )}
-      </Col>
+          </Col>
+        </>
+      )}
     </Row>
   );
 }

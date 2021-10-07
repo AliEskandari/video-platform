@@ -98,7 +98,7 @@ export default function Video() {
               {/* Title */}
               <h4>
                 {video?.exclusive && (
-                  <i class="fas fa-award pe-2 text-primary"></i>
+                  <i class="bi bi-lock pe-2 text-primary"></i>
                 )}
                 {video.title}
               </h4>
