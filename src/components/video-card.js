@@ -59,6 +59,9 @@ export default function VideoCard({
             to={ROUTES.VIDEO.replace(":id", video?.docId)}
             className="disabled text-reset text-decoration-none"
           >
+            {video?.exclusive && (
+              <i className="bi bi-lock pe-1 text-primary"></i>
+            )}
             {video?.title || <Skeleton width="80%" />}
           </Link>
         </Card.Title>
