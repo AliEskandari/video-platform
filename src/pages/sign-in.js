@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import * as ROUTES from "../constants/routes";
 
 // Firebase
@@ -10,6 +10,8 @@ import { signInWithGoogle } from "../services/firebase";
 
 export default function SignIn() {
   const history = useHistory();
+  const location = useLocation();
+  const referrer = location.state?.referrer;
   const { app } = useContext(FirebaseContext);
   const auth = getAuth(app);
 
@@ -36,7 +38,7 @@ export default function SignIn() {
 
     try {
       await signInWithGoogle();
-      history.push(ROUTES.HOME);
+      history.push(referrer || ROUTES.HOME);
     } catch (error) {
       setEmailAddress("");
       setPassword("");
@@ -88,7 +90,10 @@ export default function SignIn() {
               SIGN IN
             </Button>
             <div className="text-center mb-4">
-              <Link to={ROUTES.SIGN_UP} className="text-decoration-none">
+              <Link
+                to={{ pathname: ROUTES.SIGN_UP, state: { referrer: referrer } }}
+                className="text-decoration-none"
+              >
                 Sign up for DomumGym
               </Link>
             </div>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import * as ROUTES from "../constants/routes";
 import {
   signInWithGoogle,
@@ -9,6 +9,8 @@ import {
 
 export default function SignIn() {
   const history = useHistory();
+  const location = useLocation();
+  const referrer = location.state?.referrer;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,7 +24,7 @@ export default function SignIn() {
 
     try {
       await signUpWithEmailAndPassword(email, password, fullName);
-      history.push(ROUTES.HOME);
+      history.push(referrer || ROUTES.HOME);
     } catch (error) {
       setFullName("");
       setEmail("");
@@ -36,7 +38,7 @@ export default function SignIn() {
 
     try {
       await signInWithGoogle();
-      history.push(ROUTES.HOME);
+      history.push(referrer || ROUTES.HOME);
     } catch (error) {
       setFullName("");
       setEmail("");

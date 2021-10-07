@@ -1,8 +1,11 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
+import { Button, OverlayTrigger, Popover } from "react-bootstrap";
+import { useLocation } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 import ModalContext from "../context/modal";
 import UserContext from "../context/user";
 import { subscribeToUser, unsubcribeFromUser } from "../services/firebase";
+import * as ROUTES from "../constants/routes";
 
 export default function SubscribeButton({
   channelUserId,
@@ -11,6 +14,7 @@ export default function SubscribeButton({
 }) {
   const { user: loggedInUser } = useContext(UserContext);
   const { showModal } = useContext(ModalContext);
+  const location = useLocation();
 
   const handleClick = (event) => {
     const subscribe = () => {
@@ -34,14 +38,48 @@ export default function SubscribeButton({
     isSubscribed ? unsubscribe() : subscribe();
   };
 
+  const popover = (
+    <Popover style={{ maxWidth: "400px" }}>
+      <Popover.Body>
+        <h6>Want to subscribe to this channel?</h6>
+        <p>Sign in to subscribe to this channel.</p>
+        <hr />
+        <LinkContainer
+          to={{
+            pathname: ROUTES.SIGN_IN,
+            state: { referrer: location.pathname },
+          }}
+        >
+          <Button variant="outline-primary">Sign In</Button>
+        </LinkContainer>
+      </Popover.Body>
+    </Popover>
+  );
+
   return (
-    <Button
-      variant={isSubscribed ? "outline-primary" : "primary"}
-      className=""
-      size=""
-      onClick={handleClick}
-    >
-      {isSubscribed ? "Subscribed" : "Subscribe"}
-    </Button>
+    <>
+      {!loggedInUser ? (
+        <>
+          <OverlayTrigger
+            trigger="click"
+            placement="top-start"
+            overlay={popover}
+          >
+            <Button variant="primary">Subscribe</Button>
+          </OverlayTrigger>
+        </>
+      ) : (
+        <>
+          <Button
+            variant={isSubscribed ? "outline-primary" : "primary"}
+            className=""
+            size=""
+            onClick={handleClick}
+          >
+            {isSubscribed ? "Subscribed" : "Subscribe"}
+          </Button>
+        </>
+      )}
+    </>
   );
 }
