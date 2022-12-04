@@ -1,0 +1,19 @@
+{
+  "name": "scripts",
+  "version": "1.0.0",
+  "description": "scripts",
+  "main": "script.js",
+  "scripts": {
+    "start": "node script.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@elastic/app-search-node": "^7.15.0",
+    "dotenv": "^10.0.0",
+    "firebase-admin": "^10.0.0",
+    "firebase8": "npm:firebase@^8.10.0",
+    "stripe": "^8.186.0"
+  }
+}

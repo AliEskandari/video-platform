@@ -1,0 +1,28 @@
+// Development Rules
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // anyone can read subscriptions data
+    // only content-owner can write
+     match /subscriptions/{userId}/{documents=**} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == userId
+    }
+    
+    // anyone can read user data
+    // only content-owner can write
+     match /users/{userId}/{documents=**} {
+      allow read: if true;
+      allow write: if request.auth != null && request.auth.uid == userId
+    }
+    
+    // anyone can read video data
+    // only content-owner can write
+     match /videos/{videoId}/{documents=**} {
+      allow read: if true;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId
+    }
+  }
+}
